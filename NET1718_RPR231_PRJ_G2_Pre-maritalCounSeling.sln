@@ -3,7 +3,25 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.12.35527.113 d17.12
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pre-maritalCounSeling.DAL", "Pre-maritalCounSeling.DAL\Pre-maritalCounSeling.DAL.csproj", "{65F51232-305F-4825-B59B-02BB8F3700EE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pre-maritalCounSeling.API", "Pre-maritalCounSeling.API\Pre-maritalCounSeling.API.csproj", "{3D890E13-C85F-40F9-BF7D-3038CB7A8EFD}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{65F51232-305F-4825-B59B-02BB8F3700EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65F51232-305F-4825-B59B-02BB8F3700EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65F51232-305F-4825-B59B-02BB8F3700EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65F51232-305F-4825-B59B-02BB8F3700EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D890E13-C85F-40F9-BF7D-3038CB7A8EFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D890E13-C85F-40F9-BF7D-3038CB7A8EFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D890E13-C85F-40F9-BF7D-3038CB7A8EFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D890E13-C85F-40F9-BF7D-3038CB7A8EFD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
