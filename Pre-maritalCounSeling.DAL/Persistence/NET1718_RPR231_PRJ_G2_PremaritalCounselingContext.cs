@@ -29,9 +29,10 @@ public partial class NET1718_RPR231_PRJ_G2_PremaritalCounselingContext : DbConte
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //=> optionsBuilder.UseSqlServer(GetConnectionString("DefaultConnection"));
-        => optionsBuilder.UseSqlServer("Data Source=KH8I_NG8_NE\\KH8I01INSTANCE;Initial Catalog=NET1718_RPR231_PRJ_G2_PremaritalCounseling;User ID=sa;Password=123456;Encrypt=False");
-
+        => optionsBuilder.UseSqlServer(GetConnectionString("DefaultConnection"));
+    #region Uncomment for running Migration CLIS
+    //=> optionsBuilder.UseSqlServer("Data Source=KH8I_NG8_NE\\KH8I01INSTANCE;Initial Catalog=NET1718_RPR231_PRJ_G2_PremaritalCounseling;User ID=sa;Password=123456;Encrypt=False");
+    #endregion
     public virtual DbSet<AttachedFile> AttachedFiles { get; set; }
 
     public virtual DbSet<Feedback> Feedbacks { get; set; }

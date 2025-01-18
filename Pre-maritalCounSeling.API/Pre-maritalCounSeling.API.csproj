@@ -8,7 +8,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Asp.Versioning.Mvc" Version="8.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.8" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.3.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.1.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Pre-maritalCounSeling.BAL\Pre-maritalCounSeling.BAL.csproj" />
+    <ProjectReference Include="..\Pre-maritalCounSeling.DAL\Pre-maritalCounSeling.DAL.csproj" />
   </ItemGroup>
 
 </Project>
