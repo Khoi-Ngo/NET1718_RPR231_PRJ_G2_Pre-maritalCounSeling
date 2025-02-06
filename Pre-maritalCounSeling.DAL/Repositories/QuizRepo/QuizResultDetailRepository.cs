@@ -10,12 +10,12 @@ using System.Threading.Tasks;
 
 namespace Pre_maritalCounSeling.DAL.Repositories.QuizRepo
 {
-    internal class QuizResultDetailRepository : GenericRepository<QuizResultDetail>
+    public class QuizResultDetailRepository : GenericRepository<QuizResultDetail>
     {
         private ILogger logger;
         private IHttpContextAccessor httpContextAccessor;
 
-        public QuizResultDetailRepository(NET1718_RPR231_PRJ_G2_PremaritalCounselingContext context, ILogger logger, IHttpContextAccessor httpContextAccessor) : base(context)
+        public QuizResultDetailRepository(NET1718_RPR231_PRJ_G2_PremaritalCounselingContext context ) : base(context)
         {
             this.logger = logger;
             this.httpContextAccessor = httpContextAccessor;

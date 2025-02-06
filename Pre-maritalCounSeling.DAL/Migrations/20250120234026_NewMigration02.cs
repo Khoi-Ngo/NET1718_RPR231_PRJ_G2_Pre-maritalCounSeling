@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Pre_maritalCounSeling.DAL.Migrations
 {
     /// <inheritdoc />
-    public partial class InitMigration : Migration
+    public partial class NewMigration02 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -23,8 +23,8 @@ namespace Pre_maritalCounSeling.DAL.Migrations
                     modified_at = table.Column<DateTime>(type: "datetime", nullable: true),
                     created_by = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     modified_by = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    is_active = table.Column<bool>(type: "bit", nullable: false),
-                    is_deleted = table.Column<bool>(type: "bit", nullable: false)
+                    is_active = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
+                    is_deleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
                 },
                 constraints: table =>
                 {
@@ -43,8 +43,8 @@ namespace Pre_maritalCounSeling.DAL.Migrations
                     modified_at = table.Column<DateTime>(type: "datetime", nullable: true),
                     created_by = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     modified_by = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    is_active = table.Column<bool>(type: "bit", nullable: false),
-                    is_deleted = table.Column<bool>(type: "bit", nullable: false)
+                    is_active = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
+                    is_deleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
                 },
                 constraints: table =>
                 {
@@ -65,8 +65,8 @@ namespace Pre_maritalCounSeling.DAL.Migrations
                     modified_at = table.Column<DateTime>(type: "datetime", nullable: true),
                     created_by = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     modified_by = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    is_active = table.Column<bool>(type: "bit", nullable: false),
-                    is_deleted = table.Column<bool>(type: "bit", nullable: false)
+                    is_active = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
+                    is_deleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
                 },
                 constraints: table =>
                 {
@@ -92,8 +92,8 @@ namespace Pre_maritalCounSeling.DAL.Migrations
                     modified_at = table.Column<DateTime>(type: "datetime", nullable: true),
                     created_by = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     modified_by = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    is_active = table.Column<bool>(type: "bit", nullable: false),
-                    is_deleted = table.Column<bool>(type: "bit", nullable: false)
+                    is_active = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
+                    is_deleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
                 },
                 constraints: table =>
                 {
@@ -112,8 +112,8 @@ namespace Pre_maritalCounSeling.DAL.Migrations
                     modified_at = table.Column<DateTime>(type: "datetime", nullable: true),
                     created_by = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     modified_by = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    is_active = table.Column<bool>(type: "bit", nullable: false),
-                    is_deleted = table.Column<bool>(type: "bit", nullable: false)
+                    is_active = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
+                    is_deleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
                 },
                 constraints: table =>
                 {
@@ -135,8 +135,8 @@ namespace Pre_maritalCounSeling.DAL.Migrations
                     modified_at = table.Column<DateTime>(type: "datetime", nullable: true),
                     created_by = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     modified_by = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    is_active = table.Column<bool>(type: "bit", nullable: false),
-                    is_deleted = table.Column<bool>(type: "bit", nullable: false)
+                    is_active = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
+                    is_deleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
                 },
                 constraints: table =>
                 {
@@ -157,8 +157,8 @@ namespace Pre_maritalCounSeling.DAL.Migrations
                     modified_at = table.Column<DateTime>(type: "datetime", nullable: true),
                     created_by = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     modified_by = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    is_active = table.Column<bool>(type: "bit", nullable: false),
-                    is_deleted = table.Column<bool>(type: "bit", nullable: false)
+                    is_active = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
+                    is_deleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
                 },
                 constraints: table =>
                 {
@@ -178,8 +178,8 @@ namespace Pre_maritalCounSeling.DAL.Migrations
                     modified_at = table.Column<DateTime>(type: "datetime", nullable: true),
                     created_by = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     modified_by = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    is_active = table.Column<bool>(type: "bit", nullable: false),
-                    is_deleted = table.Column<bool>(type: "bit", nullable: false)
+                    is_active = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
+                    is_deleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
                 },
                 constraints: table =>
                 {
@@ -200,8 +200,8 @@ namespace Pre_maritalCounSeling.DAL.Migrations
                     modified_at = table.Column<DateTime>(type: "datetime", nullable: true),
                     created_by = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     modified_by = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    is_active = table.Column<bool>(type: "bit", nullable: false),
-                    is_deleted = table.Column<bool>(type: "bit", nullable: false)
+                    is_active = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
+                    is_deleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
                 },
                 constraints: table =>
                 {
@@ -226,8 +226,8 @@ namespace Pre_maritalCounSeling.DAL.Migrations
                     modified_at = table.Column<DateTime>(type: "datetime", nullable: true),
                     created_by = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     modified_by = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    is_active = table.Column<bool>(type: "bit", nullable: false),
-                    is_deleted = table.Column<bool>(type: "bit", nullable: false)
+                    is_active = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
+                    is_deleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
                 },
                 constraints: table =>
                 {
@@ -268,8 +268,8 @@ namespace Pre_maritalCounSeling.DAL.Migrations
                     modified_at = table.Column<DateTime>(type: "datetime", nullable: true),
                     created_by = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     modified_by = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    is_active = table.Column<bool>(type: "bit", nullable: false),
-                    is_deleted = table.Column<bool>(type: "bit", nullable: false)
+                    is_active = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
+                    is_deleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
                 },
                 constraints: table =>
                 {
@@ -302,8 +302,8 @@ namespace Pre_maritalCounSeling.DAL.Migrations
                     modified_at = table.Column<DateTime>(type: "datetime", nullable: true),
                     created_by = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     modified_by = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    is_active = table.Column<bool>(type: "bit", nullable: false),
-                    is_deleted = table.Column<bool>(type: "bit", nullable: false)
+                    is_active = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
+                    is_deleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
                 },
                 constraints: table =>
                 {
@@ -338,8 +338,8 @@ namespace Pre_maritalCounSeling.DAL.Migrations
                     modified_at = table.Column<DateTime>(type: "datetime", nullable: true),
                     created_by = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     modified_by = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    is_active = table.Column<bool>(type: "bit", nullable: false),
-                    is_deleted = table.Column<bool>(type: "bit", nullable: false)
+                    is_active = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
+                    is_deleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
                 },
                 constraints: table =>
                 {
@@ -381,8 +381,8 @@ namespace Pre_maritalCounSeling.DAL.Migrations
                     modified_at = table.Column<DateTime>(type: "datetime", nullable: true),
                     created_by = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     modified_by = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    is_active = table.Column<bool>(type: "bit", nullable: false),
-                    is_deleted = table.Column<bool>(type: "bit", nullable: false)
+                    is_active = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
+                    is_deleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
                 },
                 constraints: table =>
                 {
@@ -420,8 +420,8 @@ namespace Pre_maritalCounSeling.DAL.Migrations
                     modified_at = table.Column<DateTime>(type: "datetime", nullable: true),
                     created_by = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     modified_by = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    is_active = table.Column<bool>(type: "bit", nullable: false),
-                    is_deleted = table.Column<bool>(type: "bit", nullable: false)
+                    is_active = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
+                    is_deleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
                 },
                 constraints: table =>
                 {
@@ -454,8 +454,8 @@ namespace Pre_maritalCounSeling.DAL.Migrations
                     modified_at = table.Column<DateTime>(type: "datetime", nullable: true),
                     created_by = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     modified_by = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    is_active = table.Column<bool>(type: "bit", nullable: false),
-                    is_deleted = table.Column<bool>(type: "bit", nullable: false)
+                    is_active = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
+                    is_deleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
                 },
                 constraints: table =>
                 {
@@ -489,8 +489,8 @@ namespace Pre_maritalCounSeling.DAL.Migrations
                     modified_at = table.Column<DateTime>(type: "datetime", nullable: true),
                     created_by = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     modified_by = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    is_active = table.Column<bool>(type: "bit", nullable: false),
-                    is_deleted = table.Column<bool>(type: "bit", nullable: false)
+                    is_active = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
+                    is_deleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
                 },
                 constraints: table =>
                 {
@@ -519,8 +519,8 @@ namespace Pre_maritalCounSeling.DAL.Migrations
                     modified_at = table.Column<DateTime>(type: "datetime", nullable: true),
                     created_by = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     modified_by = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    is_active = table.Column<bool>(type: "bit", nullable: false),
-                    is_deleted = table.Column<bool>(type: "bit", nullable: false)
+                    is_active = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
+                    is_deleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
                 },
                 constraints: table =>
                 {
@@ -563,8 +563,8 @@ namespace Pre_maritalCounSeling.DAL.Migrations
                     modified_at = table.Column<DateTime>(type: "datetime", nullable: true),
                     created_by = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     modified_by = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    is_active = table.Column<bool>(type: "bit", nullable: false),
-                    is_deleted = table.Column<bool>(type: "bit", nullable: false)
+                    is_active = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
+                    is_deleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
                 },
                 constraints: table =>
                 {
@@ -597,8 +597,8 @@ namespace Pre_maritalCounSeling.DAL.Migrations
                     modified_at = table.Column<DateTime>(type: "datetime", nullable: true),
                     created_by = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     modified_by = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    is_active = table.Column<bool>(type: "bit", nullable: false),
-                    is_deleted = table.Column<bool>(type: "bit", nullable: false)
+                    is_active = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
+                    is_deleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
                 },
                 constraints: table =>
                 {
@@ -627,8 +627,8 @@ namespace Pre_maritalCounSeling.DAL.Migrations
                     modified_at = table.Column<DateTime>(type: "datetime", nullable: true),
                     created_by = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     modified_by = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    is_active = table.Column<bool>(type: "bit", nullable: false),
-                    is_deleted = table.Column<bool>(type: "bit", nullable: false)
+                    is_active = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
+                    is_deleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
                 },
                 constraints: table =>
                 {

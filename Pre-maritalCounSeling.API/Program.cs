@@ -1,23 +1,26 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 using System.Text;
+using System.Text.Json.Serialization;
+using Asp.Versioning;
+using Pre_maritalCounSeling.BAL;
+
+
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-#region HTTPContextAccessor
+#region Application Services
 
 builder.Services.AddHttpContextAccessor();
+builder.Services.ConfigureAppServices();
 
 #endregion
 
-#region Versoning
-
+#region API Versioning
 builder.Services.AddApiVersioning(o =>
 {
     o.AssumeDefaultVersionWhenUnspecified = true;
@@ -27,13 +30,11 @@ builder.Services.AddApiVersioning(o =>
         new QueryStringApiVersionReader("api-version"),
         new HeaderApiVersionReader("api-Version"),
         new UrlSegmentApiVersionReader());
+}).AddApiExplorer(options =>
+{
+    options.GroupNameFormat = "'v'V";
+    options.SubstituteApiVersionInUrl = true;
 });
-//TODO: fix later
-//builder.Services.AddApiExplorer(options =>
-//{
-//    options.GroupNameFormat = "'v'V";
-//    options.SubstituteApiVersionInUrl = true;
-//});
 
 #endregion
 
@@ -60,12 +61,11 @@ builder.Services.AddSwaggerGen(options =>
 {
     // using System.Reflection;
     var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-    options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 
     options.SwaggerDoc("v1", new OpenApiInfo
     {
         Version = "v1",
-        Title = "Wine Warehouse Management System API"
+        Title = "Pre-Marital Counseling System API"
     });
 
     options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
@@ -92,13 +92,8 @@ builder.Services.AddSwaggerGen(options =>
                     }
                 });
 });
-
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-
-}).AddJwtBearer(options =>
+builder.Services.AddAuthorization();
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 {
     options.RequireHttpsMetadata = false;
     options.SaveToken = true;
@@ -106,7 +101,6 @@ builder.Services.AddAuthentication(options =>
     {
         ValidateIssuer = false,
         ValidateAudience = false,
-
         ValidateIssuerSigningKey = true,
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration.GetSection("AppSettings:Key").Value!)),
         ValidateLifetime = true,
@@ -115,14 +109,25 @@ builder.Services.AddAuthentication(options =>
 });
 
 #endregion
-builder.Services.AddControllers();
+
+#region OTHER builder config
+builder.Services.AddControllers().AddJsonOptions(
+    options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+        options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.Never;
+    }
+    );
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+#endregion
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+
 if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
 {
     app.UseSwagger();

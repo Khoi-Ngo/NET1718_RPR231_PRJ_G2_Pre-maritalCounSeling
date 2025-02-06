@@ -12,8 +12,8 @@ using Pre_maritalCounSeling.DAL.Entities;
 namespace Pre_maritalCounSeling.DAL.Migrations
 {
     [DbContext(typeof(NET1718_RPR231_PRJ_G2_PremaritalCounselingContext))]
-    [Migration("20250116160339_InitMigration")]
-    partial class InitMigration
+    [Migration("20250120234026_NewMigration02")]
+    partial class NewMigration02
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -47,11 +47,15 @@ namespace Pre_maritalCounSeling.DAL.Migrations
                         .HasColumnName("feedback_id");
 
                     b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
+                        .HasDefaultValue(true)
                         .HasColumnName("is_active");
 
                     b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
+                        .HasDefaultValue(false)
                         .HasColumnName("is_deleted");
 
                     b.Property<DateTime?>("ModifiedAt")
@@ -109,11 +113,15 @@ namespace Pre_maritalCounSeling.DAL.Migrations
                         .HasColumnName("created_by");
 
                     b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
+                        .HasDefaultValue(true)
                         .HasColumnName("is_active");
 
                     b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
+                        .HasDefaultValue(false)
                         .HasColumnName("is_deleted");
 
                     b.Property<DateTime?>("ModifiedAt")
@@ -178,11 +186,15 @@ namespace Pre_maritalCounSeling.DAL.Migrations
                         .HasColumnName("description");
 
                     b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
+                        .HasDefaultValue(true)
                         .HasColumnName("is_active");
 
                     b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
+                        .HasDefaultValue(false)
                         .HasColumnName("is_deleted");
 
                     b.Property<DateTime?>("ModifiedAt")
@@ -231,11 +243,15 @@ namespace Pre_maritalCounSeling.DAL.Migrations
                         .HasColumnName("created_by");
 
                     b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
+                        .HasDefaultValue(true)
                         .HasColumnName("is_active");
 
                     b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
+                        .HasDefaultValue(false)
                         .HasColumnName("is_deleted");
 
                     b.Property<DateTime?>("ModifiedAt")
@@ -301,11 +317,15 @@ namespace Pre_maritalCounSeling.DAL.Migrations
                         .HasColumnName("description");
 
                     b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
+                        .HasDefaultValue(true)
                         .HasColumnName("is_active");
 
                     b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
+                        .HasDefaultValue(false)
                         .HasColumnName("is_deleted");
 
                     b.Property<DateTime?>("ModifiedAt")
@@ -358,11 +378,15 @@ namespace Pre_maritalCounSeling.DAL.Migrations
                         .HasColumnName("image");
 
                     b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
+                        .HasDefaultValue(true)
                         .HasColumnName("is_active");
 
                     b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
+                        .HasDefaultValue(false)
                         .HasColumnName("is_deleted");
 
                     b.Property<DateTime?>("ModifiedAt")
@@ -414,7 +438,9 @@ namespace Pre_maritalCounSeling.DAL.Migrations
                         .HasColumnName("explanation");
 
                     b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
+                        .HasDefaultValue(true)
                         .HasColumnName("is_active");
 
                     b.Property<bool>("IsCorrect")
@@ -422,7 +448,9 @@ namespace Pre_maritalCounSeling.DAL.Migrations
                         .HasColumnName("is_correct");
 
                     b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
+                        .HasDefaultValue(false)
                         .HasColumnName("is_deleted");
 
                     b.Property<DateTime?>("ModifiedAt")
@@ -489,11 +517,15 @@ namespace Pre_maritalCounSeling.DAL.Migrations
                         .HasColumnName("image");
 
                     b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
+                        .HasDefaultValue(true)
                         .HasColumnName("is_active");
 
                     b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
+                        .HasDefaultValue(false)
                         .HasColumnName("is_deleted");
 
                     b.Property<DateTime?>("ModifiedAt")
@@ -541,11 +573,15 @@ namespace Pre_maritalCounSeling.DAL.Migrations
                         .HasColumnName("created_by");
 
                     b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
+                        .HasDefaultValue(true)
                         .HasColumnName("is_active");
 
                     b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
+                        .HasDefaultValue(false)
                         .HasColumnName("is_deleted");
 
                     b.Property<DateTime?>("ModifiedAt")
@@ -596,11 +632,15 @@ namespace Pre_maritalCounSeling.DAL.Migrations
                         .HasColumnName("created_by");
 
                     b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
+                        .HasDefaultValue(true)
                         .HasColumnName("is_active");
 
                     b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
+                        .HasDefaultValue(false)
                         .HasColumnName("is_deleted");
 
                     b.Property<DateTime?>("ModifiedAt")
@@ -661,11 +701,15 @@ namespace Pre_maritalCounSeling.DAL.Migrations
                         .HasColumnName("created_by");
 
                     b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
+                        .HasDefaultValue(true)
                         .HasColumnName("is_active");
 
                     b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
+                        .HasDefaultValue(false)
                         .HasColumnName("is_deleted");
 
                     b.Property<DateTime?>("ModifiedAt")
@@ -736,11 +780,15 @@ namespace Pre_maritalCounSeling.DAL.Migrations
                         .HasColumnName("expert_name");
 
                     b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
+                        .HasDefaultValue(true)
                         .HasColumnName("is_active");
 
                     b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
+                        .HasDefaultValue(false)
                         .HasColumnName("is_deleted");
 
                     b.Property<DateTime?>("ModifiedAt")
@@ -792,11 +840,15 @@ namespace Pre_maritalCounSeling.DAL.Migrations
                         .HasColumnName("description");
 
                     b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
+                        .HasDefaultValue(true)
                         .HasColumnName("is_active");
 
                     b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
+                        .HasDefaultValue(false)
                         .HasColumnName("is_deleted");
 
                     b.Property<DateTime?>("ModifiedAt")
@@ -861,11 +913,15 @@ namespace Pre_maritalCounSeling.DAL.Migrations
                         .HasColumnName("expert_response");
 
                     b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
+                        .HasDefaultValue(true)
                         .HasColumnName("is_active");
 
                     b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
+                        .HasDefaultValue(false)
                         .HasColumnName("is_deleted");
 
                     b.Property<string>("Location")
@@ -954,11 +1010,15 @@ namespace Pre_maritalCounSeling.DAL.Migrations
                         .HasColumnName("end_date");
 
                     b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
+                        .HasDefaultValue(true)
                         .HasColumnName("is_active");
 
                     b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
+                        .HasDefaultValue(false)
                         .HasColumnName("is_deleted");
 
                     b.Property<DateTime?>("ModifiedAt")
@@ -1007,11 +1067,15 @@ namespace Pre_maritalCounSeling.DAL.Migrations
                         .HasColumnName("customer_id");
 
                     b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
+                        .HasDefaultValue(true)
                         .HasColumnName("is_active");
 
                     b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
+                        .HasDefaultValue(false)
                         .HasColumnName("is_deleted");
 
                     b.Property<DateTime?>("ModifiedAt")
@@ -1098,11 +1162,15 @@ namespace Pre_maritalCounSeling.DAL.Migrations
                         .HasColumnName("image");
 
                     b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
+                        .HasDefaultValue(true)
                         .HasColumnName("is_active");
 
                     b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
+                        .HasDefaultValue(false)
                         .HasColumnName("is_deleted");
 
                     b.Property<DateTime?>("ModifiedAt")
@@ -1170,11 +1238,15 @@ namespace Pre_maritalCounSeling.DAL.Migrations
                         .HasColumnName("image");
 
                     b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
+                        .HasDefaultValue(true)
                         .HasColumnName("is_active");
 
                     b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
+                        .HasDefaultValue(false)
                         .HasColumnName("is_deleted");
 
                     b.Property<DateTime?>("ModifiedAt")
@@ -1250,11 +1322,15 @@ namespace Pre_maritalCounSeling.DAL.Migrations
                         .HasColumnName("full_name");
 
                     b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
+                        .HasDefaultValue(true)
                         .HasColumnName("is_active");
 
                     b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
+                        .HasDefaultValue(false)
                         .HasColumnName("is_deleted");
 
                     b.Property<DateTime?>("ModifiedAt")
@@ -1347,11 +1423,15 @@ namespace Pre_maritalCounSeling.DAL.Migrations
                         .HasColumnName("image");
 
                     b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
+                        .HasDefaultValue(true)
                         .HasColumnName("is_active");
 
                     b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
+                        .HasDefaultValue(false)
                         .HasColumnName("is_deleted");
 
                     b.Property<DateTime?>("ModifiedAt")
@@ -1420,11 +1500,15 @@ namespace Pre_maritalCounSeling.DAL.Migrations
                         .HasColumnName("image");
 
                     b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
+                        .HasDefaultValue(true)
                         .HasColumnName("is_active");
 
                     b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
+                        .HasDefaultValue(false)
                         .HasColumnName("is_deleted");
 
                     b.Property<DateTime?>("ModifiedAt")

@@ -9,29 +9,34 @@ namespace Pre_maritalCounSeling.DAL.Entities;
 
 public partial class NET1718_RPR231_PRJ_G2_PremaritalCounselingContext : DbContext
 {
+    private readonly IConfiguration _configuration;
     public NET1718_RPR231_PRJ_G2_PremaritalCounselingContext()
     {
     }
 
-    public NET1718_RPR231_PRJ_G2_PremaritalCounselingContext(DbContextOptions<NET1718_RPR231_PRJ_G2_PremaritalCounselingContext> options)
+    public NET1718_RPR231_PRJ_G2_PremaritalCounselingContext(DbContextOptions<NET1718_RPR231_PRJ_G2_PremaritalCounselingContext> options, IConfiguration configuration)
         : base(options)
     {
+        _configuration = configuration;
     }
-    public static string GetConnectionString(string connectionStringName)
-    {
-        var config = new ConfigurationBuilder()
-            .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
-            .AddJsonFile("appsettings.json")
-            .Build();
+    //public static string GetConnectionString(string connectionStringName)
+    //{
+    //    var config = new ConfigurationBuilder()
+    //        .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+    //        .AddJsonFile("appsettings.json")
+    //        .Build();
 
-        string connectionString = config.GetConnectionString(connectionStringName);
-        return connectionString;
-    }
+    //    string connectionString = config.GetConnectionString(connectionStringName);
+    //    return connectionString;
+    //}
+
+    //public string GetConnectionString(string connectionStringName)
+    //=> _configuration.GetConnectionString(connectionStringName);
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseSqlServer(GetConnectionString("DefaultConnection"));
+    //=> optionsBuilder.UseSqlServer(GetConnectionString("DefaultConnection"));
     #region Uncomment for running Migration CLIS
-    //=> optionsBuilder.UseSqlServer("Data Source=KH8I_NG8_NE\\KH8I01INSTANCE;Initial Catalog=NET1718_RPR231_PRJ_G2_PremaritalCounseling;User ID=sa;Password=123456;Encrypt=False");
+    => optionsBuilder.UseSqlServer("Data Source=KH8I_NG8_NE\\KH8I01INSTANCE;Initial Catalog=NET1718_RPR231_PRJ_G2_PremaritalCounseling;User ID=sa;Password=123456;Encrypt=False");
     #endregion
     public virtual DbSet<AttachedFile> AttachedFiles { get; set; }
 
@@ -114,8 +119,8 @@ public partial class NET1718_RPR231_PRJ_G2_PremaritalCounselingContext : DbConte
                 .HasColumnType("datetime")
                 .HasColumnName("modified_at");
             entity.Property(e => e.ModifiedBy).HasColumnName("modified_by");
-            entity.Property(e => e.IsActive).HasColumnName("is_active");
-            entity.Property(e => e.IsDeleted).HasColumnName("is_deleted");
+            entity.Property(e => e.IsActive).HasColumnName("is_active").HasDefaultValue(true);
+            entity.Property(e => e.IsDeleted).HasColumnName("is_deleted").HasDefaultValue(false);
 
             #endregion
         });
@@ -160,8 +165,8 @@ public partial class NET1718_RPR231_PRJ_G2_PremaritalCounselingContext : DbConte
                 .HasColumnType("datetime")
                 .HasColumnName("modified_at");
             entity.Property(e => e.ModifiedBy).HasColumnName("modified_by");
-            entity.Property(e => e.IsActive).HasColumnName("is_active");
-            entity.Property(e => e.IsDeleted).HasColumnName("is_deleted");
+            entity.Property(e => e.IsActive).HasColumnName("is_active").HasDefaultValue(true);
+            entity.Property(e => e.IsDeleted).HasColumnName("is_deleted").HasDefaultValue(false);
 
             #endregion
         });
@@ -195,8 +200,8 @@ public partial class NET1718_RPR231_PRJ_G2_PremaritalCounselingContext : DbConte
                 .HasColumnType("datetime")
                 .HasColumnName("modified_at");
             entity.Property(e => e.ModifiedBy).HasColumnName("modified_by");
-            entity.Property(e => e.IsActive).HasColumnName("is_active");
-            entity.Property(e => e.IsDeleted).HasColumnName("is_deleted");
+            entity.Property(e => e.IsActive).HasColumnName("is_active").HasDefaultValue(true);
+            entity.Property(e => e.IsDeleted).HasColumnName("is_deleted").HasDefaultValue(false);
 
             #endregion
         });
@@ -241,8 +246,8 @@ public partial class NET1718_RPR231_PRJ_G2_PremaritalCounselingContext : DbConte
                 .HasColumnType("datetime")
                 .HasColumnName("modified_at");
             entity.Property(e => e.ModifiedBy).HasColumnName("modified_by");
-            entity.Property(e => e.IsActive).HasColumnName("is_active");
-            entity.Property(e => e.IsDeleted).HasColumnName("is_deleted");
+            entity.Property(e => e.IsActive).HasColumnName("is_active").HasDefaultValue(true);
+            entity.Property(e => e.IsDeleted).HasColumnName("is_deleted").HasDefaultValue(false);
 
             #endregion
         });
@@ -276,8 +281,8 @@ public partial class NET1718_RPR231_PRJ_G2_PremaritalCounselingContext : DbConte
                 .HasColumnType("datetime")
                 .HasColumnName("modified_at");
             entity.Property(e => e.ModifiedBy).HasColumnName("modified_by");
-            entity.Property(e => e.IsActive).HasColumnName("is_active");
-            entity.Property(e => e.IsDeleted).HasColumnName("is_deleted");
+            entity.Property(e => e.IsActive).HasColumnName("is_active").HasDefaultValue(true);
+            entity.Property(e => e.IsDeleted).HasColumnName("is_deleted").HasDefaultValue(false);
 
             #endregion
         });
@@ -313,8 +318,8 @@ public partial class NET1718_RPR231_PRJ_G2_PremaritalCounselingContext : DbConte
                 .HasColumnType("datetime")
                 .HasColumnName("modified_at");
             entity.Property(e => e.ModifiedBy).HasColumnName("modified_by");
-            entity.Property(e => e.IsActive).HasColumnName("is_active");
-            entity.Property(e => e.IsDeleted).HasColumnName("is_deleted");
+            entity.Property(e => e.IsActive).HasColumnName("is_active").HasDefaultValue(true);
+            entity.Property(e => e.IsDeleted).HasColumnName("is_deleted").HasDefaultValue(false);
 
             #endregion
         });
@@ -323,7 +328,7 @@ public partial class NET1718_RPR231_PRJ_G2_PremaritalCounselingContext : DbConte
         {
             entity.HasKey(e => e.Id).HasName("question_option_id_primary");
 
-            entity.ToTable("question_option");
+            entity.ToTable("Question_Option");
 
             entity.Property(e => e.Id)
                 .ValueGeneratedOnAdd()
@@ -351,8 +356,8 @@ public partial class NET1718_RPR231_PRJ_G2_PremaritalCounselingContext : DbConte
                 .HasColumnType("datetime")
                 .HasColumnName("modified_at");
             entity.Property(e => e.ModifiedBy).HasColumnName("modified_by");
-            entity.Property(e => e.IsActive).HasColumnName("is_active");
-            entity.Property(e => e.IsDeleted).HasColumnName("is_deleted");
+            entity.Property(e => e.IsActive).HasColumnName("is_active").HasDefaultValue(true);
+            entity.Property(e => e.IsDeleted).HasColumnName("is_deleted").HasDefaultValue(false);
 
             #endregion
         });
@@ -399,8 +404,8 @@ public partial class NET1718_RPR231_PRJ_G2_PremaritalCounselingContext : DbConte
                 .HasColumnType("datetime")
                 .HasColumnName("modified_at");
             entity.Property(e => e.ModifiedBy).HasColumnName("modified_by");
-            entity.Property(e => e.IsActive).HasColumnName("is_active");
-            entity.Property(e => e.IsDeleted).HasColumnName("is_deleted");
+            entity.Property(e => e.IsActive).HasColumnName("is_active").HasDefaultValue(true);
+            entity.Property(e => e.IsDeleted).HasColumnName("is_deleted").HasDefaultValue(false);
 
             #endregion
         });
@@ -435,8 +440,8 @@ public partial class NET1718_RPR231_PRJ_G2_PremaritalCounselingContext : DbConte
                 .HasColumnType("datetime")
                 .HasColumnName("modified_at");
             entity.Property(e => e.ModifiedBy).HasColumnName("modified_by");
-            entity.Property(e => e.IsActive).HasColumnName("is_active");
-            entity.Property(e => e.IsDeleted).HasColumnName("is_deleted");
+            entity.Property(e => e.IsActive).HasColumnName("is_active").HasDefaultValue(true);
+            entity.Property(e => e.IsDeleted).HasColumnName("is_deleted").HasDefaultValue(false);
 
             #endregion
         });
@@ -478,8 +483,8 @@ public partial class NET1718_RPR231_PRJ_G2_PremaritalCounselingContext : DbConte
                 .HasColumnType("datetime")
                 .HasColumnName("modified_at");
             entity.Property(e => e.ModifiedBy).HasColumnName("modified_by");
-            entity.Property(e => e.IsActive).HasColumnName("is_active");
-            entity.Property(e => e.IsDeleted).HasColumnName("is_deleted");
+            entity.Property(e => e.IsActive).HasColumnName("is_active").HasDefaultValue(true);
+            entity.Property(e => e.IsDeleted).HasColumnName("is_deleted").HasDefaultValue(false);
 
             #endregion
         });
@@ -522,8 +527,8 @@ public partial class NET1718_RPR231_PRJ_G2_PremaritalCounselingContext : DbConte
                 .HasColumnType("datetime")
                 .HasColumnName("modified_at");
             entity.Property(e => e.ModifiedBy).HasColumnName("modified_by");
-            entity.Property(e => e.IsActive).HasColumnName("is_active");
-            entity.Property(e => e.IsDeleted).HasColumnName("is_deleted");
+            entity.Property(e => e.IsActive).HasColumnName("is_active").HasDefaultValue(true);
+            entity.Property(e => e.IsDeleted).HasColumnName("is_deleted").HasDefaultValue(false);
 
             #endregion
         });
@@ -565,8 +570,8 @@ public partial class NET1718_RPR231_PRJ_G2_PremaritalCounselingContext : DbConte
                 .HasColumnType("datetime")
                 .HasColumnName("modified_at");
             entity.Property(e => e.ModifiedBy).HasColumnName("modified_by");
-            entity.Property(e => e.IsActive).HasColumnName("is_active");
-            entity.Property(e => e.IsDeleted).HasColumnName("is_deleted");
+            entity.Property(e => e.IsActive).HasColumnName("is_active").HasDefaultValue(true);
+            entity.Property(e => e.IsDeleted).HasColumnName("is_deleted").HasDefaultValue(false);
 
             #endregion
         });
@@ -600,8 +605,8 @@ public partial class NET1718_RPR231_PRJ_G2_PremaritalCounselingContext : DbConte
                 .HasColumnType("datetime")
                 .HasColumnName("modified_at");
             entity.Property(e => e.ModifiedBy).HasColumnName("modified_by");
-            entity.Property(e => e.IsActive).HasColumnName("is_active");
-            entity.Property(e => e.IsDeleted).HasColumnName("is_deleted");
+            entity.Property(e => e.IsActive).HasColumnName("is_active").HasDefaultValue(true);
+            entity.Property(e => e.IsDeleted).HasColumnName("is_deleted").HasDefaultValue(false);
 
             #endregion
         });
@@ -640,6 +645,7 @@ public partial class NET1718_RPR231_PRJ_G2_PremaritalCounselingContext : DbConte
                 .HasColumnName("refered_link");
             entity.Property(e => e.ReminderSent).HasColumnName("reminder_sent").IsRequired();
             entity.Property(e => e.RescheduledCount).HasColumnName("rescheduled_count").IsRequired();
+            entity.HasCheckConstraint("CK_RescheduledCount_Max", "rescheduled_count <= 2");
             entity.Property(e => e.RescheduledTime)
                 .HasColumnType("datetime")
                 .HasColumnName("rescheduled_time");
@@ -668,8 +674,8 @@ public partial class NET1718_RPR231_PRJ_G2_PremaritalCounselingContext : DbConte
                 .HasColumnType("datetime")
                 .HasColumnName("modified_at");
             entity.Property(e => e.ModifiedBy).HasColumnName("modified_by");
-            entity.Property(e => e.IsActive).HasColumnName("is_active");
-            entity.Property(e => e.IsDeleted).HasColumnName("is_deleted");
+            entity.Property(e => e.IsActive).HasColumnName("is_active").HasDefaultValue(true);
+            entity.Property(e => e.IsDeleted).HasColumnName("is_deleted").HasDefaultValue(false);
 
             #endregion
         });
@@ -704,8 +710,8 @@ public partial class NET1718_RPR231_PRJ_G2_PremaritalCounselingContext : DbConte
                 .HasColumnType("datetime")
                 .HasColumnName("modified_at");
             entity.Property(e => e.ModifiedBy).HasColumnName("modified_by");
-            entity.Property(e => e.IsActive).HasColumnName("is_active");
-            entity.Property(e => e.IsDeleted).HasColumnName("is_deleted");
+            entity.Property(e => e.IsActive).HasColumnName("is_active").HasDefaultValue(true);
+            entity.Property(e => e.IsDeleted).HasColumnName("is_deleted").HasDefaultValue(false);
 
             #endregion
         });
@@ -742,8 +748,8 @@ public partial class NET1718_RPR231_PRJ_G2_PremaritalCounselingContext : DbConte
                 .HasColumnType("datetime")
                 .HasColumnName("modified_at");
             entity.Property(e => e.ModifiedBy).HasColumnName("modified_by");
-            entity.Property(e => e.IsActive).HasColumnName("is_active");
-            entity.Property(e => e.IsDeleted).HasColumnName("is_deleted");
+            entity.Property(e => e.IsActive).HasColumnName("is_active").HasDefaultValue(true);
+            entity.Property(e => e.IsDeleted).HasColumnName("is_deleted").HasDefaultValue(false);
 
             #endregion
         });
@@ -758,9 +764,12 @@ public partial class NET1718_RPR231_PRJ_G2_PremaritalCounselingContext : DbConte
                 .ValueGeneratedOnAdd()
                 .HasColumnName("id");
             entity.Property(e => e.AvgRating).HasColumnName("avg_rating");
+            entity.HasCheckConstraint("Max_value_avg_rating", "avg_rating <= 5");
+            entity.HasCheckConstraint("Min_value_avg_rating", "avg_rating >= 0");
             entity.Property(e => e.CategoryId).HasColumnName("category_id");
             entity.Property(e => e.Commission).HasColumnName("commission");
             entity.Property(e => e.CommissionRate).HasColumnName("commission_rate");
+            entity.HasCheckConstraint("Min_value_commission_rate", "commission_rate >= 0");
             entity.Property(e => e.Currency)
                 .IsRequired()
                 .HasMaxLength(255)
@@ -802,8 +811,8 @@ public partial class NET1718_RPR231_PRJ_G2_PremaritalCounselingContext : DbConte
                 .HasColumnType("datetime")
                 .HasColumnName("modified_at");
             entity.Property(e => e.ModifiedBy).HasColumnName("modified_by");
-            entity.Property(e => e.IsActive).HasColumnName("is_active");
-            entity.Property(e => e.IsDeleted).HasColumnName("is_deleted");
+            entity.Property(e => e.IsActive).HasColumnName("is_active").HasDefaultValue(true);
+            entity.Property(e => e.IsDeleted).HasColumnName("is_deleted").HasDefaultValue(false);
 
             #endregion
         });
@@ -844,8 +853,8 @@ public partial class NET1718_RPR231_PRJ_G2_PremaritalCounselingContext : DbConte
                 .HasColumnType("datetime")
                 .HasColumnName("modified_at");
             entity.Property(e => e.ModifiedBy).HasColumnName("modified_by");
-            entity.Property(e => e.IsActive).HasColumnName("is_active");
-            entity.Property(e => e.IsDeleted).HasColumnName("is_deleted");
+            entity.Property(e => e.IsActive).HasColumnName("is_active").HasDefaultValue(true);
+            entity.Property(e => e.IsDeleted).HasColumnName("is_deleted").HasDefaultValue(false);
 
             #endregion
         });
@@ -857,7 +866,6 @@ public partial class NET1718_RPR231_PRJ_G2_PremaritalCounselingContext : DbConte
             entity.ToTable("User");
             //TODO: check mail + phone used for active account or not
             entity.HasIndex(e => e.UserName, "user_user_name_unique").IsUnique();
-
             entity.Property(e => e.Id)
                 .ValueGeneratedOnAdd()
                 .HasColumnName("id");
@@ -902,6 +910,8 @@ public partial class NET1718_RPR231_PRJ_G2_PremaritalCounselingContext : DbConte
                 .IsRequired()
                 .HasMaxLength(255)
                 .HasColumnName("user_name");
+            entity.Property(e => e.RefreshToken);
+            entity.Property(e => e.RefreshTokenExpiryTime);
             entity.HasOne(d => d.PartnerUser)
             //.WithOne(entity => entity.PartnerUser)
             .WithOne()
@@ -922,8 +932,8 @@ public partial class NET1718_RPR231_PRJ_G2_PremaritalCounselingContext : DbConte
                 .HasColumnType("datetime")
                 .HasColumnName("modified_at");
             entity.Property(e => e.ModifiedBy).HasColumnName("modified_by");
-            entity.Property(e => e.IsActive).HasColumnName("is_active");
-            entity.Property(e => e.IsDeleted).HasColumnName("is_deleted");
+            entity.Property(e => e.IsActive).HasColumnName("is_active").HasDefaultValue(true);
+            entity.Property(e => e.IsDeleted).HasColumnName("is_deleted").HasDefaultValue(false);
 
             #endregion
         });
@@ -981,8 +991,8 @@ public partial class NET1718_RPR231_PRJ_G2_PremaritalCounselingContext : DbConte
                 .HasColumnType("datetime")
                 .HasColumnName("modified_at");
             entity.Property(e => e.ModifiedBy).HasColumnName("modified_by");
-            entity.Property(e => e.IsActive).HasColumnName("is_active");
-            entity.Property(e => e.IsDeleted).HasColumnName("is_deleted");
+            entity.Property(e => e.IsActive).HasColumnName("is_active").HasDefaultValue(true);
+            entity.Property(e => e.IsDeleted).HasColumnName("is_deleted").HasDefaultValue(false);
 
             #endregion
         });
@@ -1019,8 +1029,8 @@ public partial class NET1718_RPR231_PRJ_G2_PremaritalCounselingContext : DbConte
                 .HasColumnType("datetime")
                 .HasColumnName("modified_at");
             entity.Property(e => e.ModifiedBy).HasColumnName("modified_by");
-            entity.Property(e => e.IsActive).HasColumnName("is_active");
-            entity.Property(e => e.IsDeleted).HasColumnName("is_deleted");
+            entity.Property(e => e.IsActive).HasColumnName("is_active").HasDefaultValue(true);
+            entity.Property(e => e.IsDeleted).HasColumnName("is_deleted").HasDefaultValue(false);
 
             #endregion
         });

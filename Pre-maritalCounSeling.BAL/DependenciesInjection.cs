@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Pre_maritalCounSeling.BAL.Auth;
 using Pre_maritalCounSeling.BAL.ServiceQuiz;
@@ -15,7 +16,7 @@ namespace Pre_maritalCounSeling.BAL
 {
     public static class DependenciesInjection
     {
-        public static IServiceCollection ConfigureBALServices(this IServiceCollection services)
+        public static IServiceCollection ConfigureAppServices(this IServiceCollection services)
         {
             #region DBContext
             services.AddDbContext<NET1718_RPR231_PRJ_G2_PremaritalCounselingContext>(options =>
@@ -37,11 +38,14 @@ namespace Pre_maritalCounSeling.BAL
 
             #endregion
 
-            #region UnitOfWork
+            //UnitOfWork
+            services.AddScoped<UnitOfWork>();
 
-            services.AddScoped<UnitOfWrork>();
-
-            #endregion
+            //Configuration in the appsettings.json
+            services.AddSingleton<IConfiguration>(new ConfigurationBuilder()
+                    .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+                    .AddJsonFile("appsettings.json")
+                    .Build());
 
             return services;
         }

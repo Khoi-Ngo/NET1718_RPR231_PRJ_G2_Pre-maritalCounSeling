@@ -1,25 +1,31 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using Pre_maritalCounSeling.Common.DTOs.Auth;
+using Pre_maritalCounSeling.Common.Util;
 using Pre_maritalCounSeling.DAL.Entities;
+using Pre_maritalCounSeling.DAL.Infrastructure;
 using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Pre_maritalCounSeling.BAL.Auth
 {
     public class JWTService
     {
         #region INIT
-        private readonly ILogger<JWTService> _logger;
         private readonly IConfiguration _configuration;
-        public JWTService(ILogger<JWTService> logger)
+        private readonly UnitOfWork _unitOfWork;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public JWTService(ILogger<JWTService> logger, IConfiguration configuration, UnitOfWork unitOfWork, IHttpContextAccessor httpContextAccessor)
         {
-            _logger = logger;
+            _unitOfWork = unitOfWork;
+            _configuration = configuration;
+            _httpContextAccessor = httpContextAccessor;
         }
         #endregion
 
@@ -39,9 +45,7 @@ namespace Pre_maritalCounSeling.BAL.Auth
 
             };
             //get secretkey for jwt token
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
-                    _configuration.GetSection("AppSettings:Key").Value!
-                ));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["AppSettings:Key"]));
 
             //create credentials
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
@@ -55,6 +59,67 @@ namespace Pre_maritalCounSeling.BAL.Auth
             var jwt = new JwtSecurityTokenHandler().WriteToken(token);
             return jwt;
         }
+
         //generating refresh token
+        public string GenerateRefreshToken()
+        {
+            var randomNumber = new byte[32];
+            using (var rng = RandomNumberGenerator.Create())
+            {
+                rng.GetBytes(randomNumber);
+                return Convert.ToBase64String(randomNumber);
+            }
+        }
+
+        //Get principal from token
+        private ClaimsPrincipal GetPrincipalFromExpiredToken(string token)
+        {
+            var tokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateAudience = false, //you might want to validate the audience and issuer depending on your use case
+                ValidateIssuer = false,
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["AppSettings:Key"])),
+                ValidateLifetime = false //here we are saying that we don't care about the token's expiration date
+            };
+            var tokenHandler = new JwtSecurityTokenHandler();
+            SecurityToken securityToken;
+            var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out securityToken);
+            var jwtSecurityToken = securityToken as JwtSecurityToken;
+            if (jwtSecurityToken == null || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
+                throw new SecurityTokenException("Invalid token");
+            return principal;
+        }
+
+        public async Task<AuthenticatedResponse> Refresh(RefreshRequest request)
+        {
+            var principal = GetPrincipalFromExpiredToken(request.AccessToken);
+            string username = UserUtil.GetValueFromPrincipal(principal, "UserName").ToString();
+            var user = await _unitOfWork.UserRepository.GetByUserNameAsync(username);
+            //validate user token information
+            //TODO: check expiryDateTime there is conflict insert datetime with read datetime
+            if (user.RefreshToken != request.RefreshToken) throw new Exception("Invalid client request");
+            //update user into database
+            string newRefreshToken = GenerateRefreshToken();
+            user.RefreshToken = newRefreshToken;
+            user.RefreshTokenExpiryTime = DateTime.Now.AddDays(7);
+            await _unitOfWork.UserRepository.UpdateAsync(user);
+            //return refresh response
+            return new AuthenticatedResponse
+            {
+                AccessToken = GenerateAccessToken(user),
+                RefreshToken = newRefreshToken,
+                UserName = user.UserName,
+                FullName = user.FullName,
+                Avatar = user.Avatar
+            };
+        }
+
+        public async Task HandleRevoke()
+        {
+            await _unitOfWork.UserRepository.HandleRevokeTokenUser(
+                _httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(c => c.Type == "UserName").Value);
+        }
+
     }
 }

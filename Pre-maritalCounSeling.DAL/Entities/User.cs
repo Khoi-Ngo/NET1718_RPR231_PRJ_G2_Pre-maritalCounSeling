@@ -35,6 +35,10 @@ public partial class User : BaseEntity
 
     public string? BackgroundImg { get; set; }
 
+    public string? RefreshToken { get; set; }
+
+    public DateTime RefreshTokenExpiryTime { get; set; }
+
     public long? PartnerId { get; set; }
 
     public virtual User PartnerUser { get; set; }

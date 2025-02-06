@@ -13,6 +13,8 @@ namespace Pre_maritalCounSeling.BAL.Auth
             this.role = role;
         }
 
+        //Authorization filter
+
         public void OnAuthorization(AuthorizationFilterContext context)
         {
             if(context.HttpContext.User.Identity.IsAuthenticated)

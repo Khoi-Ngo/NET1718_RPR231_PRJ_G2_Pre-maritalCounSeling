@@ -7,6 +7,7 @@ namespace Pre_maritalCounSeling.BAL.Auth
 {
     public class AuthenticateOnlyAttribute : Attribute, IAuthorizationFilter
     {
+        //Authentication filter only
         public void OnAuthorization(AuthorizationFilterContext context)
         {
             if (!context.HttpContext.User.Identity.IsAuthenticated)

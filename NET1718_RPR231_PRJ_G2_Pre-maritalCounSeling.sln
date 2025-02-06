@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pre-maritalCounSeling.BAL",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pre-maritalCounSeling.MVC", "Pre-maritalCounSeling.MVC\Pre-maritalCounSeling.MVC.csproj", "{C22D43D8-4200-436B-8531-7D3D56E88D39}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pre-maritalCounSeling.Common", "Pre-maritalCounSeling.Common\Pre-maritalCounSeling.Common.csproj", "{BE13957C-5030-468A-954B-2E475134BBBA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{C22D43D8-4200-436B-8531-7D3D56E88D39}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C22D43D8-4200-436B-8531-7D3D56E88D39}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C22D43D8-4200-436B-8531-7D3D56E88D39}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE13957C-5030-468A-954B-2E475134BBBA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE13957C-5030-468A-954B-2E475134BBBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE13957C-5030-468A-954B-2E475134BBBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE13957C-5030-468A-954B-2E475134BBBA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

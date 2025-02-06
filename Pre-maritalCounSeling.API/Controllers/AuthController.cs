@@ -1,23 +1,16 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Asp.Versioning;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Pre_maritalCounSeling.BAL.Auth;
 using Pre_maritalCounSeling.BAL.ServiceUser;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using Pre_maritalCounSeling.Common.DTOs;
+using Pre_maritalCounSeling.Common.DTOs.Auth;
+using Pre_maritalCounSeling.DAL.Entities;
 
 namespace Pre_maritalCounSeling.API.Controllers
 {
-    #region DTOs
-    public class LoginRequest
-    {
-        public string UserName { get; set; }
-        public string Password { get; set; }
-    }
-
-    #endregion
-
-    [ApiVersion("1.0")]
-    [Route("api/{apiversion}/auth")]
+    [ApiVersion(1)]
+    [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
     public class AuthController : ControllerBase
     {
@@ -25,11 +18,11 @@ namespace Pre_maritalCounSeling.API.Controllers
         private readonly ILogger<AuthController> _logger;
         private readonly IUserService _userService;
         private readonly JWTService _jwtService;
-        public AuthController(ILogger<AuthController> logger, IUserService userService, JWTService jWTService)
+        public AuthController(ILogger<AuthController> logger, IUserService userService, JWTService jwtService)
         {
             _logger = logger;
             _userService = userService;
-            _jwtService = jWTService;
+            _jwtService = jwtService;
         }
 
         #endregion
@@ -41,20 +34,31 @@ namespace Pre_maritalCounSeling.API.Controllers
         {
             try
             {
-                var result = await _userService.LoginAsync(request.UserName, request.Password);
-                if (result is null)
-                {
-                    return BadRequest("Invalid username or password");
-                }
-                return Ok(_jwtService.GenerateAccessToken(result));
+                return Ok(await _userService.LoginAsync(request.UserName, request.Password));
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                _logger.LogError(ex, ex.Message);
+                return BadRequest("Something wrong when login");
             }
         }
-        //Sign-up
 
-        //Refresh token
+        //Sign-up
+        [HttpPost("sign-up")]
+        [AllowAnonymous]
+        public async Task<IActionResult> RegisterAsync([FromBody] RegisterUserRequest request)
+        {
+            try
+            {
+                await _userService.RegisterAsync(request);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                return BadRequest("Something wrong when sign up");
+            }
+        }
+
     }
 }

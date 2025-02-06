@@ -7,4 +7,9 @@
     <RootNamespace>Pre_maritalCounSeling.MVC</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Pre-maritalCounSeling.API\Pre-maritalCounSeling.API.csproj" />
+    <ProjectReference Include="..\Pre-maritalCounSeling.Common\Pre-maritalCounSeling.Common.csproj" />
+  </ItemGroup>
+
 </Project>

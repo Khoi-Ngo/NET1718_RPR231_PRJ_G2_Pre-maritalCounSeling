@@ -15,7 +15,7 @@ namespace Pre_maritalCounSeling.DAL.Repositories.QuizRepo
         private ILogger logger;
         private IHttpContextAccessor httpContextAccessor;
 
-        public QuestionOptionRepository(NET1718_RPR231_PRJ_G2_PremaritalCounselingContext context, ILogger logger, IHttpContextAccessor httpContextAccessor) : base(context)
+        public QuestionOptionRepository(NET1718_RPR231_PRJ_G2_PremaritalCounselingContext context) : base(context)
         {
             this.logger = logger;
             this.httpContextAccessor = httpContextAccessor;
