@@ -35,8 +35,8 @@ namespace Pre_maritalCounSeling.DAL.Base
             _context.Add(entity);
             _context.SaveChanges();
         }
-
         public async Task<int> CreateAsync(T entity)
+
         {
             _context.Add(entity);
             return await _context.SaveChangesAsync();
@@ -85,6 +85,17 @@ namespace Pre_maritalCounSeling.DAL.Base
         }
 
         public async Task<T> GetByIdAsync(int id)
+        {
+            var entity = await _context.Set<T>().FindAsync(id);
+            if (entity != null)
+            {
+                _context.Entry(entity).State = EntityState.Detached;
+            }
+
+            return entity;
+
+        }
+        public async Task<T> GetByIdAsync(long id)
         {
             var entity = await _context.Set<T>().FindAsync(id);
             if (entity != null)

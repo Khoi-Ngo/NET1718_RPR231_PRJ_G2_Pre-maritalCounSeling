@@ -152,13 +152,13 @@ app.UseSwaggerUI(s =>
 
 app.UseHttpsRedirection();
 
+app.UseCors("AllowOrigin");
+
 app.UseAuthentication();
 
 app.UseAuthorization();
 
 app.UseHttpsRedirection();
-
-app.UseCors("AllowOrigin");
 
 app.MapControllers();
 

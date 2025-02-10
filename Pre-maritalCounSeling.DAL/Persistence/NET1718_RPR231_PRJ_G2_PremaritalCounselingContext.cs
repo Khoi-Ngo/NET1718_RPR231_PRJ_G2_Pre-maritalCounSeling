@@ -19,6 +19,7 @@ public partial class NET1718_RPR231_PRJ_G2_PremaritalCounselingContext : DbConte
     {
         _configuration = configuration;
     }
+    #region Basic Get ConnectionString
     //public static string GetConnectionString(string connectionStringName)
     //{
     //    var config = new ConfigurationBuilder()
@@ -29,14 +30,15 @@ public partial class NET1718_RPR231_PRJ_G2_PremaritalCounselingContext : DbConte
     //    string connectionString = config.GetConnectionString(connectionStringName);
     //    return connectionString;
     //}
+    #endregion
 
-    //public string GetConnectionString(string connectionStringName)
-    //=> _configuration.GetConnectionString(connectionStringName);
+    public string GetConnectionString(string connectionStringName)
+    => _configuration.GetConnectionString(connectionStringName);
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    //=> optionsBuilder.UseSqlServer(GetConnectionString("DefaultConnection"));
+    => optionsBuilder.UseSqlServer(GetConnectionString("DefaultConnection"));
     #region Uncomment for running Migration CLIS
-    => optionsBuilder.UseSqlServer("Data Source=KH8I_NG8_NE\\KH8I01INSTANCE;Initial Catalog=NET1718_RPR231_PRJ_G2_PremaritalCounseling;User ID=sa;Password=123456;Encrypt=False");
+    //=> optionsBuilder.UseSqlServer("Data Source=KH8I_NG8_NE\\KH8I01INSTANCE;Initial Catalog=NET1718_RPR231_PRJ_G2_PremaritalCounseling;User ID=sa;Password=123456;Encrypt=False");
     #endregion
     public virtual DbSet<AttachedFile> AttachedFiles { get; set; }
 

@@ -1,34 +1,32 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using System.Linq;
 
 namespace Pre_maritalCounSeling.BAL.Auth
 {
     public class PermissionAuthorizeAttribute : AuthorizeAttribute, IAuthorizationFilter
     {
-        private readonly string role;
+        private readonly string[] _roles;
 
-        public PermissionAuthorizeAttribute(string role)
+        public PermissionAuthorizeAttribute(params string[] roles)
         {
-            this.role = role;
+            _roles = roles;
         }
-
-        //Authorization filter
 
         public void OnAuthorization(AuthorizationFilterContext context)
         {
-            if(context.HttpContext.User.Identity.IsAuthenticated)
+            if (context.HttpContext.User.Identity?.IsAuthenticated != true)
             {
-                if (context.HttpContext.User.Claims.Any(c => c.Type == "RoleName" && c.Value == role))
-                {
-                    return;
-                }
-                else
-                {
-                    context.Result = new StatusCodeResult(403);
-                }
+                context.Result = new UnauthorizedResult(); // 401
+                return;
             }
-            context.Result = new StatusCodeResult(401);
+
+            var role = context.HttpContext.User.FindFirst("RoleName")?.Value;
+            if (role == null || !_roles.Contains(role))
+            {
+                context.Result = new ForbidResult(); // 403
+            }
         }
     }
 }

@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Pre_maritalCounSeling.MVC.Models;
-using System.Text.Json;
 using Pre_maritalCounSeling.Common.Util;
 
 namespace Pre_maritalCounSeling.MVC.Controllers
@@ -38,8 +37,8 @@ namespace Pre_maritalCounSeling.MVC.Controllers
                 {
                     using (var response = await httpClient.PostAsJsonAsync(_configuration["Pre-maritalCounSelingAPIEndpoint:Base"] + "Auth/sign-in", request))
                     {
-                        var jwtToken = new JwtSecurityTokenHandler()
-                            .ReadJwtToken((await AppUtil.GetDeserializedResponseFromApi(response))["accessToken"]);
+                        var tokenString = (await AppUtil.GetDeserializedResponseFromApi(response))["accessToken"];
+                        var jwtToken = new JwtSecurityTokenHandler().ReadJwtToken(tokenString);
                         var userName = jwtToken.Claims.FirstOrDefault(c => c.Type == "UserName").Value;
                         var role = jwtToken.Claims.FirstOrDefault(c => c.Type == "RoleName").Value;
 
@@ -54,6 +53,7 @@ namespace Pre_maritalCounSeling.MVC.Controllers
 
                         Response.Cookies.Append("UserName", userName);
                         Response.Cookies.Append("Role", role);
+                        Response.Cookies.Append("TokenString", tokenString);
 
                         return RedirectToAction("Index", "Home");
 
@@ -74,7 +74,7 @@ namespace Pre_maritalCounSeling.MVC.Controllers
             Response.Cookies.Delete("UserName");
             Response.Cookies.Delete("Role");
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return View("Login");
+            return RedirectToAction("Index", "Home");
         }
 
 

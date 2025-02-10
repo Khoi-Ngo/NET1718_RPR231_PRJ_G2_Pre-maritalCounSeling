@@ -32,7 +32,7 @@ namespace Pre_maritalCounSeling.BAL
             services.AddScoped<JWTService>();
 
             services.AddScoped<QuestionService>();
-            services.AddScoped<QuizResultService>();
+            services.AddScoped<IQuizResultService, QuizResultService>();
             services.AddScoped<QuizService>();
             services.AddScoped<QuizSuggestionService>();
             services.AddScoped<IUserService, UserService>();
