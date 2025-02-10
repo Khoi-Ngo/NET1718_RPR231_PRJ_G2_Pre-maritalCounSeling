@@ -1,4 +1,4 @@
-﻿namespace Pre_maritalCounSeling.Common.DTOs
+﻿namespace Pre_maritalCounSeling.Common.DTOs.Auth
 {
     public class RegisterUserRequest
     {

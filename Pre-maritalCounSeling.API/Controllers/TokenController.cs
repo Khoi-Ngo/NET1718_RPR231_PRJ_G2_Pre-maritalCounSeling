@@ -5,7 +5,6 @@ using Pre_maritalCounSeling.Common.DTOs.Auth;
 
 namespace Pre_maritalCounSeling.API.Controllers
 {
-
     [ApiVersion(1)]
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]

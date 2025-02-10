@@ -4,8 +4,8 @@ using Microsoft.OpenApi.Models;
 using System.Reflection;
 using System.Text;
 using System.Text.Json.Serialization;
-using Asp.Versioning;
 using Pre_maritalCounSeling.BAL;
+using Asp.Versioning;
 
 
 
@@ -110,6 +110,12 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 
 #endregion
 
+#region LOAD PORT VALUE FROM APPSETTINGS FOR DEV ENV
+// Load port configuration from appsettings.json
+var httpPort = builder.Configuration.GetValue<int>("Hosting:HttpPort");
+var httpsPort = builder.Configuration.GetValue<int>("Hosting:HttpsPort");
+#endregion
+
 #region OTHER builder config
 builder.Services.AddControllers().AddJsonOptions(
     options =>
@@ -124,19 +130,25 @@ builder.Services.AddSwaggerGen();
 
 #endregion
 
+
 var app = builder.Build();
+#region  config port lanching in dev env
+if (app.Environment.IsDevelopment())
+{
+    app.Urls.Add($"http://localhost:{httpPort}"); // Set HTTP port
+    app.Urls.Add($"https://localhost:{httpsPort}"); // Set HTTPS port
+}
+#endregion
+
+
 
 // Configure the HTTP request pipeline.
-
-if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
+app.UseSwagger();
+app.UseSwaggerUI(s =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI(s =>
-    {
-        s.SwaggerEndpoint("/swagger/v1/swagger.json", "Pre-MaritalCounSeling API");
-    });
+    s.SwaggerEndpoint("/swagger/v1/swagger.json", "Pre-MaritalCounSeling API");
+});
 
-}
 
 app.UseHttpsRedirection();
 

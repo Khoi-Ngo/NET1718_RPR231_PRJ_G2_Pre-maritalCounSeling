@@ -1,11 +1,8 @@
-﻿using Asp.Versioning;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Pre_maritalCounSeling.BAL.Auth;
 using Pre_maritalCounSeling.BAL.ServiceUser;
-using Pre_maritalCounSeling.Common.DTOs;
 using Pre_maritalCounSeling.Common.DTOs.Auth;
-using Pre_maritalCounSeling.DAL.Entities;
+using Asp.Versioning;
 
 namespace Pre_maritalCounSeling.API.Controllers
 {
@@ -17,12 +14,10 @@ namespace Pre_maritalCounSeling.API.Controllers
         #region Init
         private readonly ILogger<AuthController> _logger;
         private readonly IUserService _userService;
-        private readonly JWTService _jwtService;
-        public AuthController(ILogger<AuthController> logger, IUserService userService, JWTService jwtService)
+        public AuthController(ILogger<AuthController> logger, IUserService userService)
         {
             _logger = logger;
             _userService = userService;
-            _jwtService = jwtService;
         }
 
         #endregion

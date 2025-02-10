@@ -37,7 +37,8 @@ namespace Pre_maritalCounSeling.BAL.Auth
             {
                 new Claim("Id", user.Id.ToString()),
                 new Claim("UserName", user.UserName),
-                new Claim("FullName", user.FullName),
+                new Claim("FullName" +
+                "", user.FullName),
                 new Claim("Email", user.Email),
                 new Claim("RoleName", user.Role.Name),
                 new Claim("IsActive", user.IsActive.ToString()),
