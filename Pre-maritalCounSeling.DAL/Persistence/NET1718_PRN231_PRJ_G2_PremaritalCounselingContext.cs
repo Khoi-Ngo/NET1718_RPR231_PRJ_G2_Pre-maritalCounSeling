@@ -7,14 +7,14 @@ using Microsoft.Extensions.Configuration;
 
 namespace Pre_maritalCounSeling.DAL.Entities;
 
-public partial class NET1718_RPR231_PRJ_G2_PremaritalCounselingContext : DbContext
+public partial class NET1718_PRN231_PRJ_G2_PremaritalCounselingContext : DbContext
 {
     private readonly IConfiguration _configuration;
-    public NET1718_RPR231_PRJ_G2_PremaritalCounselingContext()
+    public NET1718_PRN231_PRJ_G2_PremaritalCounselingContext()
     {
     }
 
-    public NET1718_RPR231_PRJ_G2_PremaritalCounselingContext(DbContextOptions<NET1718_RPR231_PRJ_G2_PremaritalCounselingContext> options, IConfiguration configuration)
+    public NET1718_PRN231_PRJ_G2_PremaritalCounselingContext(DbContextOptions<NET1718_PRN231_PRJ_G2_PremaritalCounselingContext> options, IConfiguration configuration)
         : base(options)
     {
         _configuration = configuration;
@@ -36,9 +36,9 @@ public partial class NET1718_RPR231_PRJ_G2_PremaritalCounselingContext : DbConte
     => _configuration.GetConnectionString(connectionStringName);
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    => optionsBuilder.UseSqlServer(GetConnectionString("DefaultConnection"));
+    //=> optionsBuilder.UseSqlServer(GetConnectionString("DefaultConnection"));
     #region Uncomment for running Migration CLIS
-    //=> optionsBuilder.UseSqlServer("Data Source=KH8I_NG8_NE\\KH8I01INSTANCE;Initial Catalog=NET1718_RPR231_PRJ_G2_PremaritalCounseling;User ID=sa;Password=123456;Encrypt=False");
+    => optionsBuilder.UseSqlServer("Data Source=KH8I_NG8_NE\\KH8I01INSTANCE;Initial Catalog=NET1718_PRN231_PRJ_G2_PremaritalCounseling;User ID=sa;Password=123456;Encrypt=False");
     #endregion
     public virtual DbSet<AttachedFile> AttachedFiles { get; set; }
 
@@ -56,13 +56,9 @@ public partial class NET1718_RPR231_PRJ_G2_PremaritalCounselingContext : DbConte
 
     public virtual DbSet<Quiz> Quizzes { get; set; }
 
-    public virtual DbSet<QuizQuestion> QuizQuestions { get; set; }
-
     public virtual DbSet<QuizResult> QuizResults { get; set; }
 
     public virtual DbSet<QuizResultDetail> QuizResultDetails { get; set; }
-
-    public virtual DbSet<QuizSuggestion> QuizSuggestions { get; set; }
 
     public virtual DbSet<Role> Roles { get; set; }
 
@@ -310,6 +306,10 @@ public partial class NET1718_RPR231_PRJ_G2_PremaritalCounselingContext : DbConte
                 .HasColumnType("text")
                 .HasColumnName("recommended_answer");
 
+            entity.HasOne(d => d.Quiz).WithMany(p => p.Questions)
+           .HasForeignKey(d => d.QuizId)
+           .HasConstraintName("question_id_foreign");
+
             #region apply base entity fields
 
             entity.Property(e => e.CreatedAt)
@@ -412,42 +412,6 @@ public partial class NET1718_RPR231_PRJ_G2_PremaritalCounselingContext : DbConte
             #endregion
         });
 
-        modelBuilder.Entity<QuizQuestion>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("quiz_question_id_primary");
-
-            entity.ToTable("Quiz_Question");
-
-            entity.Property(e => e.Id)
-                .ValueGeneratedOnAdd()
-                .HasColumnName("id");
-            entity.Property(e => e.QuestionId).HasColumnName("question_id");
-            entity.Property(e => e.QuizId).HasColumnName("quiz_id");
-
-            entity.HasOne(d => d.Question).WithMany(p => p.QuizQuestions)
-                .HasForeignKey(d => d.QuestionId)
-                .HasConstraintName("quiz_question_question_id_foreign");
-
-            entity.HasOne(d => d.Quiz).WithMany(p => p.QuizQuestions)
-                .HasForeignKey(d => d.QuizId)
-                .HasConstraintName("quiz_question_quiz_id_foreign");
-
-            #region apply base entity fields
-
-            entity.Property(e => e.CreatedAt)
-                .HasColumnType("datetime")
-                .HasColumnName("created_at");
-            entity.Property(e => e.CreatedBy).HasColumnName("created_by");
-            entity.Property(e => e.ModifiedAt)
-                .HasColumnType("datetime")
-                .HasColumnName("modified_at");
-            entity.Property(e => e.ModifiedBy).HasColumnName("modified_by");
-            entity.Property(e => e.IsActive).HasColumnName("is_active").HasDefaultValue(true);
-            entity.Property(e => e.IsDeleted).HasColumnName("is_deleted").HasDefaultValue(false);
-
-            #endregion
-        });
-
         modelBuilder.Entity<QuizResult>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("quiz_result_id_primary");
@@ -466,12 +430,17 @@ public partial class NET1718_RPR231_PRJ_G2_PremaritalCounselingContext : DbConte
             entity.Property(e => e.Score).HasColumnName("score").IsRequired();
             entity.Property(e => e.TimeCompleted).HasColumnName("time_completed").IsRequired();
             entity.Property(e => e.UserId).HasColumnName("user_id");
+            entity.Property(e => e.SuggestionContent)
+                .HasColumnType("text")
+                .HasColumnName("suggestion_content"); // Fixed missing column name
 
-            entity.HasOne(d => d.Quiz).WithMany(p => p.QuizResults)
+            entity.HasOne(d => d.Quiz)
+                .WithMany(p => p.QuizResults)
                 .HasForeignKey(d => d.QuizId)
                 .HasConstraintName("quiz_result_quiz_id_foreign");
 
-            entity.HasOne(d => d.User).WithMany(p => p.QuizResults)
+            entity.HasOne(d => d.User)
+                .WithMany(p => p.QuizResults)
                 .HasForeignKey(d => d.UserId)
                 .HasConstraintName("quiz_result_user_id_foreign");
 
@@ -491,6 +460,7 @@ public partial class NET1718_RPR231_PRJ_G2_PremaritalCounselingContext : DbConte
             #endregion
         });
 
+
         modelBuilder.Entity<QuizResultDetail>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("quiz_result_detail_id_primary");
@@ -500,7 +470,6 @@ public partial class NET1718_RPR231_PRJ_G2_PremaritalCounselingContext : DbConte
             entity.Property(e => e.Id)
                 .ValueGeneratedOnAdd()
                 .HasColumnName("id");
-            entity.Property(e => e.QuestionId).HasColumnName("question_id");
             entity.Property(e => e.QuizResultId).HasColumnName("quiz_result_id");
             entity.Property(e => e.RecommendedAnswer)
                 .HasColumnType("text")
@@ -511,56 +480,10 @@ public partial class NET1718_RPR231_PRJ_G2_PremaritalCounselingContext : DbConte
                 .HasColumnType("text")
                 .HasColumnName("user_answer");
 
-            entity.HasOne(d => d.Question).WithMany(p => p.QuizResultDetails)
-                .HasForeignKey(d => d.QuestionId)
-                .HasConstraintName("quiz_result_detail_question_id_foreign");
-
             entity.HasOne(d => d.QuizResult).WithMany(p => p.QuizResultDetails)
                 .HasForeignKey(d => d.QuizResultId)
-                .HasConstraintName("quiz_result_detail_quiz_result_id_foreign");
-
-            #region apply base entity fields
-
-            entity.Property(e => e.CreatedAt)
-                .HasColumnType("datetime")
-                .HasColumnName("created_at");
-            entity.Property(e => e.CreatedBy).HasColumnName("created_by");
-            entity.Property(e => e.ModifiedAt)
-                .HasColumnType("datetime")
-                .HasColumnName("modified_at");
-            entity.Property(e => e.ModifiedBy).HasColumnName("modified_by");
-            entity.Property(e => e.IsActive).HasColumnName("is_active").HasDefaultValue(true);
-            entity.Property(e => e.IsDeleted).HasColumnName("is_deleted").HasDefaultValue(false);
-
-            #endregion
-        });
-
-        modelBuilder.Entity<QuizSuggestion>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("quiz_suggestion_id_primary");
-
-            entity.ToTable("Quiz_Suggestion");
-
-            entity.Property(e => e.Id)
-                .ValueGeneratedOnAdd()
-                .HasColumnName("id");
-            entity.Property(e => e.Content)
-                .IsRequired()
-                .HasColumnType("text")
-                .HasColumnName("content");
-            entity.Property(e => e.ExpertId).HasColumnName("expert_id");
-            entity.Property(e => e.ExpertName)
-                .HasMaxLength(255)
-                .HasColumnName("expert_name");
-            entity.Property(e => e.QuizResultId).HasColumnName("quiz_result_id");
-            entity.Property(e => e.Type)
-                .IsRequired()
-                .HasMaxLength(255)
-                .HasColumnName("type");
-
-            entity.HasOne(d => d.QuizResult).WithMany(p => p.QuizSuggestions)
-                .HasForeignKey(d => d.QuizResultId)
-                .HasConstraintName("quiz_suggestion_quiz_result_id_foreign");
+                .HasConstraintName("quiz_result_detail_quiz_result_id_foreign")
+                ;
 
             #region apply base entity fields
 

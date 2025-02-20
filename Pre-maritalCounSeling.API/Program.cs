@@ -6,6 +6,9 @@ using System.Text;
 using System.Text.Json.Serialization;
 using Pre_maritalCounSeling.BAL;
 using Asp.Versioning;
+using Microsoft.AspNetCore.OData;
+using Microsoft.OData.ModelBuilder;
+using Pre_maritalCounSeling.DAL.Entities;
 
 
 
@@ -46,9 +49,21 @@ builder.Services.AddCors(options =>
         {
             builder.AllowAnyOrigin()
                    .AllowAnyHeader()
-                   .AllowAnyMethod();
+                   .AllowAnyMethod()
+                   .WithExposedHeaders("Authorization");
         });
 });
+#endregion
+
+#region
+var modelBuilder = new ODataConventionModelBuilder();
+//modelBuilder.EntityType<QuizResult>();
+modelBuilder.EntitySet<QuizResult>("QuizResult");
+
+builder.Services.AddControllers().AddOData(
+    options => options.Select().Filter().OrderBy().Expand().Count().SetMaxTop(null).AddRouteComponents(
+        "odata",
+        modelBuilder.GetEdmModel()));
 #endregion
 
 #region THIRD-PARTY service
@@ -67,7 +82,8 @@ builder.Services.AddSwaggerGen(options =>
         Version = "v1",
         Title = "Pre-Marital Counseling System API"
     });
-
+    //! add swagger gen resolve conflice duplicate endpoints API
+    options.ResolveConflictingActions(config => config.First());
     options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
     {
         Name = "Authorization",
@@ -112,8 +128,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 
 #region LOAD PORT VALUE FROM APPSETTINGS FOR DEV ENV
 // Load port configuration from appsettings.json
-var httpPort = builder.Configuration.GetValue<int>("Hosting:HttpPort");
-var httpsPort = builder.Configuration.GetValue<int>("Hosting:HttpsPort");
+//var httpPort = builder.Configuration.GetValue<int>("Hosting:HttpPort");
+//var httpsPort = builder.Configuration.GetValue<int>("Hosting:HttpsPort");
 #endregion
 
 #region OTHER builder config
@@ -133,11 +149,11 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 #region  config port lanching in dev env
-if (app.Environment.IsDevelopment())
-{
-    app.Urls.Add($"http://localhost:{httpPort}"); // Set HTTP port
-    app.Urls.Add($"https://localhost:{httpsPort}"); // Set HTTPS port
-}
+//if (app.Environment.IsDevelopment())
+//{
+//    app.Urls.Add($"http://localhost:{httpPort}"); // Set HTTP port
+//    app.Urls.Add($"https://localhost:{httpsPort}"); // Set HTTPS port
+//}
 #endregion
 
 

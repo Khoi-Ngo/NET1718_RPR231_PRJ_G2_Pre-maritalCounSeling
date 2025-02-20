@@ -26,12 +26,12 @@ public partial class Question : BaseEntity
     }
 
     public string Content { get; set; }
-
+    public long QuizId { get; set; }
     public string? Image { get; set; }
     //if the question is not multiple choice, the recommended answer must not be null or empty
     public string? RecommendedAnswer { get; set; }
 
-    public virtual ICollection<QuizQuestion> QuizQuestions { get; set; } = new List<QuizQuestion>();
     public virtual ICollection<QuestionOption> QuestionOptions { get; set; } = new List<QuestionOption>();
-    public virtual ICollection<QuizResultDetail> QuizResultDetails { get; set; } = new List<QuizResultDetail>();
+    public virtual Quiz Quiz { get; set; }
+
 }

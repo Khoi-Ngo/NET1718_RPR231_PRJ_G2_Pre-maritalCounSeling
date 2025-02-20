@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Pre_maritalCounSeling.DAL.Migrations
 {
     /// <inheritdoc />
-    public partial class NewMigration02 : Migration
+    public partial class test : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -49,28 +49,6 @@ namespace Pre_maritalCounSeling.DAL.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("post_type_id_primary", x => x.id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Question",
-                columns: table => new
-                {
-                    id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    question_type = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    content = table.Column<string>(type: "text", nullable: false),
-                    image = table.Column<string>(type: "text", nullable: true),
-                    recommended_answer = table.Column<string>(type: "text", nullable: true),
-                    created_at = table.Column<DateTime>(type: "datetime", nullable: true),
-                    modified_at = table.Column<DateTime>(type: "datetime", nullable: true),
-                    created_by = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    modified_by = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    is_active = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
-                    is_deleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("question_id_primary", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -187,7 +165,78 @@ namespace Pre_maritalCounSeling.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "question_option",
+                name: "Question",
+                columns: table => new
+                {
+                    id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    question_type = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    content = table.Column<string>(type: "text", nullable: false),
+                    QuizId = table.Column<long>(type: "bigint", nullable: false),
+                    image = table.Column<string>(type: "text", nullable: true),
+                    recommended_answer = table.Column<string>(type: "text", nullable: true),
+                    created_at = table.Column<DateTime>(type: "datetime", nullable: true),
+                    modified_at = table.Column<DateTime>(type: "datetime", nullable: true),
+                    created_by = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    modified_by = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    is_active = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
+                    is_deleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("question_id_primary", x => x.id);
+                    table.ForeignKey(
+                        name: "question_id_foreign",
+                        column: x => x.QuizId,
+                        principalTable: "Quiz",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "User",
+                columns: table => new
+                {
+                    id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    user_name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    password = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    full_name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    email = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    phone = table.Column<string>(type: "varchar(10)", unicode: false, maxLength: 10, nullable: false),
+                    employee_code = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    role_id = table.Column<short>(type: "smallint", nullable: false),
+                    request_code = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    application_code = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    avatar = table.Column<string>(type: "text", nullable: true),
+                    background_img = table.Column<string>(type: "text", nullable: true),
+                    RefreshToken = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RefreshTokenExpiryTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    partner_id = table.Column<long>(type: "bigint", nullable: true),
+                    created_at = table.Column<DateTime>(type: "datetime", nullable: true),
+                    modified_at = table.Column<DateTime>(type: "datetime", nullable: true),
+                    created_by = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    modified_by = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    is_active = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
+                    is_deleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("user_id_primary", x => x.id);
+                    table.ForeignKey(
+                        name: "user_partner_id_foreign",
+                        column: x => x.partner_id,
+                        principalTable: "User",
+                        principalColumn: "id");
+                    table.ForeignKey(
+                        name: "user_role_id_foreign",
+                        column: x => x.role_id,
+                        principalTable: "Role",
+                        principalColumn: "id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Question_Option",
                 columns: table => new
                 {
                     id = table.Column<long>(type: "bigint", nullable: false)
@@ -212,78 +261,6 @@ namespace Pre_maritalCounSeling.DAL.Migrations
                         principalTable: "Question",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Quiz_Question",
-                columns: table => new
-                {
-                    id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    quiz_id = table.Column<long>(type: "bigint", nullable: false),
-                    question_id = table.Column<long>(type: "bigint", nullable: false),
-                    created_at = table.Column<DateTime>(type: "datetime", nullable: true),
-                    modified_at = table.Column<DateTime>(type: "datetime", nullable: true),
-                    created_by = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    modified_by = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    is_active = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
-                    is_deleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("quiz_question_id_primary", x => x.id);
-                    table.ForeignKey(
-                        name: "quiz_question_question_id_foreign",
-                        column: x => x.question_id,
-                        principalTable: "Question",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "quiz_question_quiz_id_foreign",
-                        column: x => x.quiz_id,
-                        principalTable: "Quiz",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "User",
-                columns: table => new
-                {
-                    id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    user_name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    password = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    full_name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    email = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    phone = table.Column<string>(type: "varchar(10)", unicode: false, maxLength: 10, nullable: false),
-                    employee_code = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    role_id = table.Column<short>(type: "smallint", nullable: false),
-                    request_code = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    application_code = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    avatar = table.Column<string>(type: "text", nullable: true),
-                    background_img = table.Column<string>(type: "text", nullable: true),
-                    partner_id = table.Column<long>(type: "bigint", nullable: true),
-                    created_at = table.Column<DateTime>(type: "datetime", nullable: true),
-                    modified_at = table.Column<DateTime>(type: "datetime", nullable: true),
-                    created_by = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    modified_by = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    is_active = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
-                    is_deleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("user_id_primary", x => x.id);
-                    table.ForeignKey(
-                        name: "user_partner_id_foreign",
-                        column: x => x.partner_id,
-                        principalTable: "User",
-                        principalColumn: "id");
-                    table.ForeignKey(
-                        name: "user_role_id_foreign",
-                        column: x => x.role_id,
-                        principalTable: "Role",
-                        principalColumn: "id");
                 });
 
             migrationBuilder.CreateTable(
@@ -334,6 +311,7 @@ namespace Pre_maritalCounSeling.DAL.Migrations
                     quiz_result_code = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     time_completed = table.Column<double>(type: "float", nullable: false),
                     attempt_time = table.Column<long>(type: "bigint", nullable: false),
+                    suggestion_content = table.Column<string>(type: "text", nullable: true),
                     created_at = table.Column<DateTime>(type: "datetime", nullable: true),
                     modified_at = table.Column<DateTime>(type: "datetime", nullable: true),
                     created_by = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -387,6 +365,9 @@ namespace Pre_maritalCounSeling.DAL.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("service_id_primary", x => x.id);
+                    table.CheckConstraint("Max_value_avg_rating", "avg_rating <= 5");
+                    table.CheckConstraint("Min_value_avg_rating", "avg_rating >= 0");
+                    table.CheckConstraint("Min_value_commission_rate", "commission_rate >= 0");
                     table.ForeignKey(
                         name: "service_category_id_foreign",
                         column: x => x.category_id,
@@ -447,7 +428,6 @@ namespace Pre_maritalCounSeling.DAL.Migrations
                     id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     quiz_result_id = table.Column<long>(type: "bigint", nullable: false),
-                    question_id = table.Column<long>(type: "bigint", nullable: false),
                     user_answer = table.Column<string>(type: "text", nullable: false),
                     recommended_answer = table.Column<string>(type: "text", nullable: false),
                     created_at = table.Column<DateTime>(type: "datetime", nullable: true),
@@ -461,42 +441,7 @@ namespace Pre_maritalCounSeling.DAL.Migrations
                 {
                     table.PrimaryKey("quiz_result_detail_id_primary", x => x.id);
                     table.ForeignKey(
-                        name: "quiz_result_detail_question_id_foreign",
-                        column: x => x.question_id,
-                        principalTable: "Question",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
                         name: "quiz_result_detail_quiz_result_id_foreign",
-                        column: x => x.quiz_result_id,
-                        principalTable: "Quiz_Result",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Quiz_Suggestion",
-                columns: table => new
-                {
-                    id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    type = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    expert_id = table.Column<long>(type: "bigint", nullable: true),
-                    expert_name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    content = table.Column<string>(type: "text", nullable: false),
-                    quiz_result_id = table.Column<long>(type: "bigint", nullable: false),
-                    created_at = table.Column<DateTime>(type: "datetime", nullable: true),
-                    modified_at = table.Column<DateTime>(type: "datetime", nullable: true),
-                    created_by = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    modified_by = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    is_active = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
-                    is_deleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("quiz_suggestion_id_primary", x => x.id);
-                    table.ForeignKey(
-                        name: "quiz_suggestion_quiz_result_id_foreign",
                         column: x => x.quiz_result_id,
                         principalTable: "Quiz_Result",
                         principalColumn: "id",
@@ -569,6 +514,7 @@ namespace Pre_maritalCounSeling.DAL.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("schedule_id_primary", x => x.id);
+                    table.CheckConstraint("CK_RescheduledCount_Max", "rescheduled_count <= 2");
                     table.ForeignKey(
                         name: "schedule_schedule_type_id_foreign",
                         column: x => x.schedule_type_id,
@@ -688,19 +634,14 @@ namespace Pre_maritalCounSeling.DAL.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_question_option_question_id",
-                table: "question_option",
-                column: "question_id");
+                name: "IX_Question_QuizId",
+                table: "Question",
+                column: "QuizId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Quiz_Question_question_id",
-                table: "Quiz_Question",
+                name: "IX_Question_Option_question_id",
+                table: "Question_Option",
                 column: "question_id");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Quiz_Question_quiz_id",
-                table: "Quiz_Question",
-                column: "quiz_id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Quiz_Result_quiz_id",
@@ -713,18 +654,8 @@ namespace Pre_maritalCounSeling.DAL.Migrations
                 column: "user_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Quiz_Result_Detail_question_id",
-                table: "Quiz_Result_Detail",
-                column: "question_id");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Quiz_Result_Detail_quiz_result_id",
                 table: "Quiz_Result_Detail",
-                column: "quiz_result_id");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Quiz_Suggestion_quiz_result_id",
-                table: "Quiz_Suggestion",
                 column: "quiz_result_id");
 
             migrationBuilder.CreateIndex(
@@ -814,16 +745,10 @@ namespace Pre_maritalCounSeling.DAL.Migrations
                 name: "Post");
 
             migrationBuilder.DropTable(
-                name: "question_option");
-
-            migrationBuilder.DropTable(
-                name: "Quiz_Question");
+                name: "Question_Option");
 
             migrationBuilder.DropTable(
                 name: "Quiz_Result_Detail");
-
-            migrationBuilder.DropTable(
-                name: "Quiz_Suggestion");
 
             migrationBuilder.DropTable(
                 name: "Schedule_User");

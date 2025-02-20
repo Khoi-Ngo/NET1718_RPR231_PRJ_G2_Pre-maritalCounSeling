@@ -10,14 +10,14 @@ namespace Pre_maritalCounSeling.DAL.Base
 {
     public class GenericRepository<T> where T : class
     {
-        protected NET1718_RPR231_PRJ_G2_PremaritalCounselingContext _context;
+        protected NET1718_PRN231_PRJ_G2_PremaritalCounselingContext _context;
 
         public GenericRepository()
         {
-            _context ??= new NET1718_RPR231_PRJ_G2_PremaritalCounselingContext();
+            _context ??= new NET1718_PRN231_PRJ_G2_PremaritalCounselingContext();
         }
 
-        public GenericRepository(NET1718_RPR231_PRJ_G2_PremaritalCounselingContext context)
+        public GenericRepository(NET1718_PRN231_PRJ_G2_PremaritalCounselingContext context)
         {
             _context = context;
         }

@@ -19,7 +19,6 @@ namespace Pre_maritalCounSeling.Common.Util
             return JsonSerializer.Deserialize<T>(await response.Content.ReadAsStringAsync(), options);
         }
 
-
         //adding jwt token to the request header
         public static Task AddJwtTokenToRequestHeader(HttpClient httpClient, HttpContext httpContext)
         {
@@ -27,5 +26,13 @@ namespace Pre_maritalCounSeling.Common.Util
             httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + tokenString);
             return Task.CompletedTask;
         }
+
+        public static long GetUserIdFromUserContext(IHttpContextAccessor httpContextAccessor)
+        => (long)Convert.ToDouble(httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type.Equals("Id", StringComparison.CurrentCultureIgnoreCase)).Value);
+
+        public static string GetUserRoleFromUserContext(IHttpContextAccessor httpContextAccessor)
+        => httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type.Equals("RoleName", StringComparison.CurrentCultureIgnoreCase)).Value;
+
+
     }
 }

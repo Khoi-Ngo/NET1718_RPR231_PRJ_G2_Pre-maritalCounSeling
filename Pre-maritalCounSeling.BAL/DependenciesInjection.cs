@@ -20,7 +20,7 @@ namespace Pre_maritalCounSeling.BAL
         public static IServiceCollection ConfigureAppServices(this IServiceCollection services)
         {
             #region DBContext
-            services.AddDbContext<NET1718_RPR231_PRJ_G2_PremaritalCounselingContext>(options =>
+            services.AddDbContext<NET1718_PRN231_PRJ_G2_PremaritalCounselingContext>(options =>
             {
                 options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             });
@@ -33,7 +33,7 @@ namespace Pre_maritalCounSeling.BAL
 
             services.AddScoped<QuestionService>();
             services.AddScoped<IQuizResultService, QuizResultService>();
-            services.AddScoped<QuizService>();
+            services.AddScoped<IQuizService, QuizService>();
             services.AddScoped<QuizSuggestionService>();
             services.AddScoped<IUserService, UserService>();
 

@@ -28,8 +28,7 @@ public partial class Quiz : BaseEntity
     public string? Difficulty { get; set; } = "Undefined";
 
     public long? PassScore { get; set; }
-
-    public virtual ICollection<QuizQuestion> QuizQuestions { get; set; } = new List<QuizQuestion>();
+    public virtual ICollection<Question> Questions { get; set; } = new List<Question>();
 
     public virtual ICollection<QuizResult> QuizResults { get; set; } = new List<QuizResult>();
 }

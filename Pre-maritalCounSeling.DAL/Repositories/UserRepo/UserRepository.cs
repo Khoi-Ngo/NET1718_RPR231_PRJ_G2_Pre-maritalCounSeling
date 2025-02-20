@@ -7,7 +7,7 @@ namespace Pre_maritalCounSeling.DAL.Repositories.UserRepo
     public class UserRepository : GenericRepository<User>
     {
 
-        public UserRepository(NET1718_RPR231_PRJ_G2_PremaritalCounselingContext context) : base(context)
+        public UserRepository(NET1718_PRN231_PRJ_G2_PremaritalCounselingContext context) : base(context)
         { }
 
         public async Task<User> GetUser(string userName, string password)

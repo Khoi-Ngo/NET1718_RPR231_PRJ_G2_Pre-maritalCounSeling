@@ -1,5 +1,6 @@
 ﻿using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Query;
 using Pre_maritalCounSeling.BAL.Auth;
 using Pre_maritalCounSeling.BAL.ServiceQuiz;
 
@@ -22,7 +23,8 @@ namespace Pre_maritalCounSeling.API.Controllers
 
         // GET: api/QuizResults
         [HttpGet]
-        // [PermissionAuthorize("ADMIN", "CUSTOMER")]
+        [PermissionAuthorize("ADMIN", "CUSTOMER")]
+        [EnableQuery]
         public async Task<IActionResult> GetQuizResultsAsync()
         {
             try
@@ -37,7 +39,8 @@ namespace Pre_maritalCounSeling.API.Controllers
         }
         // GET: api/QuizResults/id
         [HttpGet("{id}")]
-        // [PermissionAuthorize("ADMIN", "CUSTOMER")]
+        [PermissionAuthorize("ADMIN", "CUSTOMER")]
+        [EnableQuery]
         public async Task<IActionResult> GetQuizResultAsync(long id)
         {
             try
@@ -52,7 +55,7 @@ namespace Pre_maritalCounSeling.API.Controllers
         }
         // DELETE: api/QuizResults/id
         [HttpDelete("{id}")]
-        // [PermissionAuthorize("ADMIN", "CUSTOMER")]
+        [PermissionAuthorize("ADMIN", "CUSTOMER")]
         public async Task<IActionResult> DeleteQuizResultAsync(long id)
         {
             try

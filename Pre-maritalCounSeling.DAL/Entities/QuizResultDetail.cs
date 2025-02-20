@@ -12,13 +12,10 @@ public partial class QuizResultDetail : BaseEntity
 
     public long QuizResultId { get; set; }
 
-    public long QuestionId { get; set; }
     //can be stored as choice or text
     public string UserAnswer { get; set; }
     //can be stored as choice or text
     public string RecommendedAnswer { get; set; }
-
-    public virtual Question Question { get; set; }
 
     public virtual QuizResult QuizResult { get; set; }
 }

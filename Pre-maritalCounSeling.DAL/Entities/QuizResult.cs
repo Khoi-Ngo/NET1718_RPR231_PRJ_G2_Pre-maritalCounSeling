@@ -3,11 +3,13 @@
 using Pre_maritalCounSeling.DAL.Base;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Pre_maritalCounSeling.DAL.Entities;
 
 public partial class QuizResult : BaseEntity
 {
+    [Key]
     public long Id { get; set; }
 
     public long Score { get; set; }
@@ -22,11 +24,12 @@ public partial class QuizResult : BaseEntity
 
     public long AttemptTime { get; set; } = 0;
 
+    //Suggestion properties - AI Generated Only (can be updated no limit times)
+    public string SuggestionContent { get; set; } = "Unavailable yet";
+
     public virtual Quiz Quiz { get; set; }
 
     public virtual ICollection<QuizResultDetail> QuizResultDetails { get; set; } = new List<QuizResultDetail>();
-
-    public virtual ICollection<QuizSuggestion> QuizSuggestions { get; set; } = new List<QuizSuggestion>();
 
     public virtual User User { get; set; }
 }

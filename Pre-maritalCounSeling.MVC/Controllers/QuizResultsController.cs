@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using Pre_maritalCounSeling.Common.Util;
 using Pre_maritalCounSeling.DAL.Entities;
 
@@ -37,6 +39,11 @@ namespace Pre_maritalCounSeling.MVC.Controllers
                 _logger.LogError(ex, ex.Message);
                 return View(new List<QuizResult>());
             }
+        }
+        //GET: QuizResults using AJAX JQUERY
+        public async Task<IActionResult> Index02()
+        {
+            return View();
         }
 
         // GET: QuizResults/Details/5
@@ -103,6 +110,49 @@ namespace Pre_maritalCounSeling.MVC.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        #region TEMP: code following up
+        // GET: QuizResults/Create
+        public async Task<IActionResult> Create()
+        {
+            List<Quiz> result = new List<Quiz>();
+            try
+            {
+                using (var httpClient = new HttpClient())
+                {
+                    await AppUtil.AddJwtTokenToRequestHeader(httpClient, HttpContext);
+
+                    using (var response = await httpClient
+                        .GetAsync(_configuration["Pre-maritalCounSelingAPIEndpoint:Base"] + "QuizResults"))
+                    {
+                        //result = await AppUtil.GetDeserializedResponseFromApi<List<QuizResult>>(response);
+                        return null;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+            }
+            ViewData["QuizId"] = new SelectList(result, "Id", "Title");
+            return View();
+        }
+
+        // POST: QuizResults/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("Id,Title,Description,Image,Duration,DurationUnit,AvgTimeCompleted,Tags,Difficulty,PassScore,CreatedAt,ModifiedAt,CreatedBy,ModifiedBy,IsActive,IsDeleted")] Quiz quiz)
+        {
+            //if (ModelState.IsValid)
+            //{
+            //    _context.Add(quiz);
+            //    await _context.SaveChangesAsync();
+            //    return RedirectToAction(nameof(Index));
+            //}
+            return View(quiz);
+        }
+        #endregion
     }
 }
 

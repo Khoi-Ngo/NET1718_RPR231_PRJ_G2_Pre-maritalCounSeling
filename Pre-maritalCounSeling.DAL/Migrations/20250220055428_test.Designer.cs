@@ -11,9 +11,9 @@ using Pre_maritalCounSeling.DAL.Entities;
 
 namespace Pre_maritalCounSeling.DAL.Migrations
 {
-    [DbContext(typeof(NET1718_RPR231_PRJ_G2_PremaritalCounselingContext))]
-    [Migration("20250120234026_NewMigration02")]
-    partial class NewMigration02
+    [DbContext(typeof(NET1718_PRN231_PRJ_G2_PremaritalCounselingContext))]
+    [Migration("20250220055428_test")]
+    partial class test
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -401,12 +401,17 @@ namespace Pre_maritalCounSeling.DAL.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("question_type");
 
+                    b.Property<long>("QuizId")
+                        .HasColumnType("bigint");
+
                     b.Property<string>("RecommendedAnswer")
                         .HasColumnType("text")
                         .HasColumnName("recommended_answer");
 
                     b.HasKey("Id")
                         .HasName("question_id_primary");
+
+                    b.HasIndex("QuizId");
 
                     b.ToTable("Question", (string)null);
                 });
@@ -470,7 +475,7 @@ namespace Pre_maritalCounSeling.DAL.Migrations
 
                     b.HasIndex("QuestionId");
 
-                    b.ToTable("question_option", (string)null);
+                    b.ToTable("Question_Option", (string)null);
                 });
 
             modelBuilder.Entity("Pre_maritalCounSeling.DAL.Entities.Quiz", b =>
@@ -555,61 +560,6 @@ namespace Pre_maritalCounSeling.DAL.Migrations
                     b.ToTable("Quiz", (string)null);
                 });
 
-            modelBuilder.Entity("Pre_maritalCounSeling.DAL.Entities.QuizQuestion", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasColumnName("id");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime")
-                        .HasColumnName("created_at");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("created_by");
-
-                    b.Property<bool>("IsActive")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(true)
-                        .HasColumnName("is_active");
-
-                    b.Property<bool>("IsDeleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false)
-                        .HasColumnName("is_deleted");
-
-                    b.Property<DateTime?>("ModifiedAt")
-                        .HasColumnType("datetime")
-                        .HasColumnName("modified_at");
-
-                    b.Property<string>("ModifiedBy")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("modified_by");
-
-                    b.Property<long>("QuestionId")
-                        .HasColumnType("bigint")
-                        .HasColumnName("question_id");
-
-                    b.Property<long>("QuizId")
-                        .HasColumnType("bigint")
-                        .HasColumnName("quiz_id");
-
-                    b.HasKey("Id")
-                        .HasName("quiz_question_id_primary");
-
-                    b.HasIndex("QuestionId");
-
-                    b.HasIndex("QuizId");
-
-                    b.ToTable("Quiz_Question", (string)null);
-                });
-
             modelBuilder.Entity("Pre_maritalCounSeling.DAL.Entities.QuizResult", b =>
                 {
                     b.Property<long>("Id")
@@ -664,6 +614,10 @@ namespace Pre_maritalCounSeling.DAL.Migrations
                     b.Property<long>("Score")
                         .HasColumnType("bigint")
                         .HasColumnName("score");
+
+                    b.Property<string>("SuggestionContent")
+                        .HasColumnType("text")
+                        .HasColumnName("suggestion_content");
 
                     b.Property<double>("TimeCompleted")
                         .HasColumnType("float")
@@ -720,10 +674,6 @@ namespace Pre_maritalCounSeling.DAL.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("modified_by");
 
-                    b.Property<long>("QuestionId")
-                        .HasColumnType("bigint")
-                        .HasColumnName("question_id");
-
                     b.Property<long>("QuizResultId")
                         .HasColumnType("bigint")
                         .HasColumnName("quiz_result_id");
@@ -741,80 +691,9 @@ namespace Pre_maritalCounSeling.DAL.Migrations
                     b.HasKey("Id")
                         .HasName("quiz_result_detail_id_primary");
 
-                    b.HasIndex("QuestionId");
-
                     b.HasIndex("QuizResultId");
 
                     b.ToTable("Quiz_Result_Detail", (string)null);
-                });
-
-            modelBuilder.Entity("Pre_maritalCounSeling.DAL.Entities.QuizSuggestion", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasColumnName("id");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
-
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("content");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime")
-                        .HasColumnName("created_at");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("created_by");
-
-                    b.Property<long?>("ExpertId")
-                        .HasColumnType("bigint")
-                        .HasColumnName("expert_id");
-
-                    b.Property<string>("ExpertName")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)")
-                        .HasColumnName("expert_name");
-
-                    b.Property<bool>("IsActive")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(true)
-                        .HasColumnName("is_active");
-
-                    b.Property<bool>("IsDeleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false)
-                        .HasColumnName("is_deleted");
-
-                    b.Property<DateTime?>("ModifiedAt")
-                        .HasColumnType("datetime")
-                        .HasColumnName("modified_at");
-
-                    b.Property<string>("ModifiedBy")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("modified_by");
-
-                    b.Property<long>("QuizResultId")
-                        .HasColumnType("bigint")
-                        .HasColumnName("quiz_result_id");
-
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)")
-                        .HasColumnName("type");
-
-                    b.HasKey("Id")
-                        .HasName("quiz_suggestion_id_primary");
-
-                    b.HasIndex("QuizResultId");
-
-                    b.ToTable("Quiz_Suggestion", (string)null);
                 });
 
             modelBuilder.Entity("Pre_maritalCounSeling.DAL.Entities.Role", b =>
@@ -976,7 +855,10 @@ namespace Pre_maritalCounSeling.DAL.Migrations
 
                     b.HasIndex("ServiceId");
 
-                    b.ToTable("Schedule", (string)null);
+                    b.ToTable("Schedule", null, t =>
+                        {
+                            t.HasCheckConstraint("CK_RescheduledCount_Max", "rescheduled_count <= 2");
+                        });
                 });
 
             modelBuilder.Entity("Pre_maritalCounSeling.DAL.Entities.ScheduleType", b =>
@@ -1203,7 +1085,14 @@ namespace Pre_maritalCounSeling.DAL.Migrations
 
                     b.HasIndex("ExpertId");
 
-                    b.ToTable("Service", (string)null);
+                    b.ToTable("Service", null, t =>
+                        {
+                            t.HasCheckConstraint("Max_value_avg_rating", "avg_rating <= 5");
+
+                            t.HasCheckConstraint("Min_value_avg_rating", "avg_rating >= 0");
+
+                            t.HasCheckConstraint("Min_value_commission_rate", "commission_rate >= 0");
+                        });
                 });
 
             modelBuilder.Entity("Pre_maritalCounSeling.DAL.Entities.ServiceCategory", b =>
@@ -1357,6 +1246,12 @@ namespace Pre_maritalCounSeling.DAL.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(10)")
                         .HasColumnName("phone");
+
+                    b.Property<string>("RefreshToken")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("RefreshTokenExpiryTime")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("RequestCode")
                         .IsRequired()
@@ -1593,6 +1488,18 @@ namespace Pre_maritalCounSeling.DAL.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Pre_maritalCounSeling.DAL.Entities.Question", b =>
+                {
+                    b.HasOne("Pre_maritalCounSeling.DAL.Entities.Quiz", "Quiz")
+                        .WithMany("Questions")
+                        .HasForeignKey("QuizId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("question_id_foreign");
+
+                    b.Navigation("Quiz");
+                });
+
             modelBuilder.Entity("Pre_maritalCounSeling.DAL.Entities.QuestionOption", b =>
                 {
                     b.HasOne("Pre_maritalCounSeling.DAL.Entities.Question", "Question")
@@ -1603,27 +1510,6 @@ namespace Pre_maritalCounSeling.DAL.Migrations
                         .HasConstraintName("question_option_id_foreign");
 
                     b.Navigation("Question");
-                });
-
-            modelBuilder.Entity("Pre_maritalCounSeling.DAL.Entities.QuizQuestion", b =>
-                {
-                    b.HasOne("Pre_maritalCounSeling.DAL.Entities.Question", "Question")
-                        .WithMany("QuizQuestions")
-                        .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("quiz_question_question_id_foreign");
-
-                    b.HasOne("Pre_maritalCounSeling.DAL.Entities.Quiz", "Quiz")
-                        .WithMany("QuizQuestions")
-                        .HasForeignKey("QuizId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("quiz_question_quiz_id_foreign");
-
-                    b.Navigation("Question");
-
-                    b.Navigation("Quiz");
                 });
 
             modelBuilder.Entity("Pre_maritalCounSeling.DAL.Entities.QuizResult", b =>
@@ -1649,33 +1535,12 @@ namespace Pre_maritalCounSeling.DAL.Migrations
 
             modelBuilder.Entity("Pre_maritalCounSeling.DAL.Entities.QuizResultDetail", b =>
                 {
-                    b.HasOne("Pre_maritalCounSeling.DAL.Entities.Question", "Question")
-                        .WithMany("QuizResultDetails")
-                        .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("quiz_result_detail_question_id_foreign");
-
                     b.HasOne("Pre_maritalCounSeling.DAL.Entities.QuizResult", "QuizResult")
                         .WithMany("QuizResultDetails")
                         .HasForeignKey("QuizResultId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("quiz_result_detail_quiz_result_id_foreign");
-
-                    b.Navigation("Question");
-
-                    b.Navigation("QuizResult");
-                });
-
-            modelBuilder.Entity("Pre_maritalCounSeling.DAL.Entities.QuizSuggestion", b =>
-                {
-                    b.HasOne("Pre_maritalCounSeling.DAL.Entities.QuizResult", "QuizResult")
-                        .WithMany("QuizSuggestions")
-                        .HasForeignKey("QuizResultId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("quiz_suggestion_quiz_result_id_foreign");
 
                     b.Navigation("QuizResult");
                 });
@@ -1800,15 +1665,11 @@ namespace Pre_maritalCounSeling.DAL.Migrations
             modelBuilder.Entity("Pre_maritalCounSeling.DAL.Entities.Question", b =>
                 {
                     b.Navigation("QuestionOptions");
-
-                    b.Navigation("QuizQuestions");
-
-                    b.Navigation("QuizResultDetails");
                 });
 
             modelBuilder.Entity("Pre_maritalCounSeling.DAL.Entities.Quiz", b =>
                 {
-                    b.Navigation("QuizQuestions");
+                    b.Navigation("Questions");
 
                     b.Navigation("QuizResults");
                 });
@@ -1816,8 +1677,6 @@ namespace Pre_maritalCounSeling.DAL.Migrations
             modelBuilder.Entity("Pre_maritalCounSeling.DAL.Entities.QuizResult", b =>
                 {
                     b.Navigation("QuizResultDetails");
-
-                    b.Navigation("QuizSuggestions");
                 });
 
             modelBuilder.Entity("Pre_maritalCounSeling.DAL.Entities.Role", b =>

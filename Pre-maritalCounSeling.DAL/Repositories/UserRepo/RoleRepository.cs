@@ -6,7 +6,7 @@ namespace Pre_maritalCounSeling.DAL.Repositories.UserRepo
 {
     public class RoleRepository : GenericRepository<Role>
     {
-        public RoleRepository(NET1718_RPR231_PRJ_G2_PremaritalCounselingContext context) : base(context)
+        public RoleRepository(NET1718_PRN231_PRJ_G2_PremaritalCounselingContext context) : base(context)
         {
         }
 
