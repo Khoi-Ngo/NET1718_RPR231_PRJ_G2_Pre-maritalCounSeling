@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+option csharp_namespace = "NET1718_RPR231_PRJ_G2_Pre-maritalCounSeling.GrpcService.Protos";
+
+service QuizResult{
+	rpc GetAll() returns (QuizResult);
+	rpc GetById(IdRequest) returns (QuizResult);
+	rpc DeleteById(IdRequest) returns (QuizResult);
+	//rpc Add(Schedule) returns (ActionResult);
+	//rpc Edit(Schedule) returns (ActionResult);
+}
+
+//Request
+message IdRequest {
+	int32 id;
+}
+
+//Response
+
+message ActionResult{
+	int32 status = 1;
+	string message = 2;
+	QuizResult result = 3;
+}
+
+message QuizResult{
+
+}
+
+message QuizResults{
+	repeated QuizResult Data = 1;
+}

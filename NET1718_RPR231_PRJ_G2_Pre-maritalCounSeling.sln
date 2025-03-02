@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pre-maritalCounSeling.MVC",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pre-maritalCounSeling.Common", "Pre-maritalCounSeling.Common\Pre-maritalCounSeling.Common.csproj", "{BE13957C-5030-468A-954B-2E475134BBBA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NET1718_RPR231_PRJ_G2_Pre-maritalCounSeling.GrpcService", "NET1718_RPR231_PRJ_G2_Pre-maritalCounSeling.GrpcService\NET1718_RPR231_PRJ_G2_Pre-maritalCounSeling.GrpcService.csproj", "{B00CB336-2054-4480-B830-F4F76A99A515}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{BE13957C-5030-468A-954B-2E475134BBBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BE13957C-5030-468A-954B-2E475134BBBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BE13957C-5030-468A-954B-2E475134BBBA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B00CB336-2054-4480-B830-F4F76A99A515}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B00CB336-2054-4480-B830-F4F76A99A515}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B00CB336-2054-4480-B830-F4F76A99A515}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B00CB336-2054-4480-B830-F4F76A99A515}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
