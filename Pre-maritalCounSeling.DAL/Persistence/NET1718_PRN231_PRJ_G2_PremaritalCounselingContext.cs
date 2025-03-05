@@ -58,8 +58,6 @@ public partial class NET1718_PRN231_PRJ_G2_PremaritalCounselingContext : DbConte
 
     public virtual DbSet<QuizResult> QuizResults { get; set; }
 
-    public virtual DbSet<QuizResultDetail> QuizResultDetails { get; set; }
-
     public virtual DbSet<Role> Roles { get; set; }
 
     public virtual DbSet<Schedule> Schedules { get; set; }
@@ -432,7 +430,7 @@ public partial class NET1718_PRN231_PRJ_G2_PremaritalCounselingContext : DbConte
             entity.Property(e => e.UserId).HasColumnName("user_id");
             entity.Property(e => e.SuggestionContent)
                 .HasColumnType("text")
-                .HasColumnName("suggestion_content"); // Fixed missing column name
+                .HasColumnName("suggestion_content");
 
             entity.HasOne(d => d.Quiz)
                 .WithMany(p => p.QuizResults)
@@ -444,46 +442,10 @@ public partial class NET1718_PRN231_PRJ_G2_PremaritalCounselingContext : DbConte
                 .HasForeignKey(d => d.UserId)
                 .HasConstraintName("quiz_result_user_id_foreign");
 
-            #region apply base entity fields
-
-            entity.Property(e => e.CreatedAt)
-                .HasColumnType("datetime")
-                .HasColumnName("created_at");
-            entity.Property(e => e.CreatedBy).HasColumnName("created_by");
-            entity.Property(e => e.ModifiedAt)
-                .HasColumnType("datetime")
-                .HasColumnName("modified_at");
-            entity.Property(e => e.ModifiedBy).HasColumnName("modified_by");
-            entity.Property(e => e.IsActive).HasColumnName("is_active").HasDefaultValue(true);
-            entity.Property(e => e.IsDeleted).HasColumnName("is_deleted").HasDefaultValue(false);
-
-            #endregion
-        });
-
-
-        modelBuilder.Entity<QuizResultDetail>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("quiz_result_detail_id_primary");
-
-            entity.ToTable("Quiz_Result_Detail");
-
-            entity.Property(e => e.Id)
-                .ValueGeneratedOnAdd()
-                .HasColumnName("id");
-            entity.Property(e => e.QuizResultId).HasColumnName("quiz_result_id");
-            entity.Property(e => e.RecommendedAnswer)
-                .HasColumnType("text")
-                .IsRequired()
-                .HasColumnName("recommended_answer");
-            entity.Property(e => e.UserAnswer)
-                .IsRequired()
-                .HasColumnType("text")
-                .HasColumnName("user_answer");
-
-            entity.HasOne(d => d.QuizResult).WithMany(p => p.QuizResultDetails)
-                .HasForeignKey(d => d.QuizResultId)
-                .HasConstraintName("quiz_result_detail_quiz_result_id_foreign")
-                ;
+            entity.Property(e => e.DoHaveFeedback).HasDefaultValue(false);
+            entity.Property(e => e.FeedBack).HasDefaultValue("No feedback provided yet!");
+            entity.Property(e => e.UserAnswerData).HasColumnType("text");
+            entity.Property(e => e.RecommendedAnswerData).HasColumnType("text");
 
             #region apply base entity fields
 

@@ -17,23 +17,21 @@ namespace Pre_maritalCounSeling.DAL.Infrastructure
         public QuestionOptionRepository QuestionOptionRepository { get; }
         public QuestionRepository QuestionRepository { get; }
         public QuizRepository QuizRepository { get; }
-        public QuizResultDetailRepository QuizResultDetailRepository { get; }
         public QuizResultRepository QuizResultRepository { get; }
         public RoleRepository RoleRepository { get; }
 
         public UnitOfWork(NET1718_PRN231_PRJ_G2_PremaritalCounselingContext context)
         {
-            _context = context;
-            #region singleton repositories
+            _context = context ?? throw new ArgumentNullException(nameof(context));
 
             UserRepository ??= new UserRepository(_context);
             QuestionOptionRepository ??= new QuestionOptionRepository(_context);
             QuestionRepository ??= new QuestionRepository(_context);
             QuizRepository ??= new QuizRepository(_context);
-            QuizResultDetailRepository ??= new QuizResultDetailRepository(_context);
+            QuizResultRepository ??= new QuizResultRepository(_context);
             RoleRepository ??= new RoleRepository(_context);
-            #endregion
         }
+
         public void Dispose()
         {
             _context?.Dispose();

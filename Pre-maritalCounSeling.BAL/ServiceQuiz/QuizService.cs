@@ -1,11 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Pre_maritalCounSeling.DAL.Entities;
 using Pre_maritalCounSeling.DAL.Infrastructure;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Pre_maritalCounSeling.BAL.ServiceQuiz
 {
@@ -15,6 +10,7 @@ namespace Pre_maritalCounSeling.BAL.ServiceQuiz
     }
     public class QuizService : IQuizService
     {
+        #region INIT
         private readonly UnitOfWork _unitOfWork;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
@@ -23,6 +19,7 @@ namespace Pre_maritalCounSeling.BAL.ServiceQuiz
             _unitOfWork = unitOfWork;
             _httpContextAccessor = httpContextAccessor;
         }
+        #endregion
 
         public async Task<List<Quiz>> GetQuizzesAsync()
         => await _unitOfWork.QuizRepository.GetAllAsync();

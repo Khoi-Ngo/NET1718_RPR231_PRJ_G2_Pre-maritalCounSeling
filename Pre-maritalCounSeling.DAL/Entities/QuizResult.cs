@@ -23,13 +23,19 @@ public partial class QuizResult : BaseEntity
     public double TimeCompleted { get; set; }
 
     public long AttemptTime { get; set; } = 0;
+    public bool DoHaveFeedback { get; set; }
+    public string FeedBack { get; set; } // Expert or Admin can take time to give the feedback
 
     //Suggestion properties - AI Generated Only (can be updated no limit times)
     public string SuggestionContent { get; set; } = "Unavailable yet";
 
     public virtual Quiz Quiz { get; set; }
 
-    public virtual ICollection<QuizResultDetail> QuizResultDetails { get; set; } = new List<QuizResultDetail>();
+    #region adding later version of this entity
+    public string UserAnswerData { get; set; }// large text data
+    public string RecommendedAnswerData { get; set; }// large text data
+
+    #endregion
 
     public virtual User User { get; set; }
 }

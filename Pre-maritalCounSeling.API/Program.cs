@@ -55,7 +55,7 @@ builder.Services.AddCors(options =>
 });
 #endregion
 
-#region
+#region ODATA
 var modelBuilder = new ODataConventionModelBuilder();
 //modelBuilder.EntityType<QuizResult>();
 modelBuilder.EntitySet<QuizResult>("QuizResult");

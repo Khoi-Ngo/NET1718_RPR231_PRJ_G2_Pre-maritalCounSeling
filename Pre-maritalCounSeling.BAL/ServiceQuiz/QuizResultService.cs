@@ -10,6 +10,7 @@ namespace Pre_maritalCounSeling.BAL.ServiceQuiz
         Task DeleteQuizResultAsync(long id);
         Task<List<QuizResult>> GetQuizResultsAsync();
         Task<QuizResult> GetQuizResultAsync(long id);
+        Task<List<QuizResult>> GetQuizResultsSimplyAsync();
     }
     public class QuizResultService : IQuizResultService
     {
@@ -39,6 +40,15 @@ namespace Pre_maritalCounSeling.BAL.ServiceQuiz
             if (userRole.Equals("CUSTOMER")) return (await _unitOfWork.QuizResultRepository.GetAllAsync()).Where(qz => qz.UserId == AppUtil.GetUserIdFromUserContext(_httpContextAccessor)).ToList();
             throw new Exception("Unauthorized access / Cannot find the quiz results");
         }
+
+        public async Task<List<QuizResult>> GetQuizResultsSimplyAsync()
+        {
+
+            var check = await _unitOfWork.QuizResultRepository.GetAllAsync();
+            return check;
+
+        }
+
 
         public async Task<QuizResult> GetQuizResultAsync(long id)
         {

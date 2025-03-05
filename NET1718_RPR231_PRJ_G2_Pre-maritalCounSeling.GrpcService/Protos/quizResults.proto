@@ -1,32 +1,40 @@
 syntax = "proto3";
 
-option csharp_namespace = "NET1718_RPR231_PRJ_G2_Pre-maritalCounSeling.GrpcService.Protos";
+import "google/protobuf/empty.proto"; // Import the Empty message
 
-service QuizResult{
-	rpc GetAll() returns (QuizResult);
-	rpc GetById(IdRequest) returns (QuizResult);
-	rpc DeleteById(IdRequest) returns (QuizResult);
-	//rpc Add(Schedule) returns (ActionResult);
-	//rpc Edit(Schedule) returns (ActionResult);
+option csharp_namespace = "NET1718_PRN231_PRJ_G2_PremaritalCounseling.GrpcService.Protos";
+
+service QuizResultGRPC {
+    rpc GetAll(google.protobuf.Empty) returns (QuizResultList);
+    rpc GetById(IdRequest) returns (QuizResultModel);
+    rpc DeleteById(IdRequest) returns (ActionResult);
+    // rpc Add(QuizResultModel) returns (ActionResult);
+    // rpc Edit(QuizResultModel) returns (ActionResult);
 }
 
-//Request
+// Request messages
 message IdRequest {
-	int32 id;
+    int32 id = 1;
 }
 
-//Response
-
-message ActionResult{
-	int32 status = 1;
-	string message = 2;
-	QuizResult result = 3;
+// Response messages
+message ActionResult {
+    int32 status = 1;
+    string message = 2;
+    QuizResultModel result = 3;
 }
 
-message QuizResult{
-
+message QuizResultModel {
+    int32 id = 1;
+    int32 score = 2;
+    int32 user_id = 3;  // Use snake_case for consistency
+    int32 quiz_id = 4;
+    string quiz_result_code = 5;
+    double time_completed = 6;
+    int32 attempt_time = 7;
+    string suggestion_content = 8;
 }
 
-message QuizResults{
-	repeated QuizResult Data = 1;
+message QuizResultList {
+    repeated QuizResultModel data = 1; // Naming convention: lowercase
 }
