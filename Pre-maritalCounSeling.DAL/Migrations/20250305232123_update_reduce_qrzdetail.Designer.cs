@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Pre_maritalCounSeling.DAL.Entities;
 
@@ -11,9 +12,11 @@ using Pre_maritalCounSeling.DAL.Entities;
 namespace Pre_maritalCounSeling.DAL.Migrations
 {
     [DbContext(typeof(NET1718_PRN231_PRJ_G2_PremaritalCounselingContext))]
-    partial class NET1718_PRN231_PRJ_G2_PremaritalCounselingContextModelSnapshot : ModelSnapshot
+    [Migration("20250305232123_update_reduce_qrzdetail")]
+    partial class update_reduce_qrzdetail
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
