@@ -33,6 +33,6 @@ namespace Pre_maritalCounSeling.Common.Util
         public static string GetUserRoleFromUserContext(IHttpContextAccessor httpContextAccessor)
         => httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type.Equals("RoleName", StringComparison.CurrentCultureIgnoreCase)).Value;
 
-
+        //DEMO new repo commit
     }
 }
