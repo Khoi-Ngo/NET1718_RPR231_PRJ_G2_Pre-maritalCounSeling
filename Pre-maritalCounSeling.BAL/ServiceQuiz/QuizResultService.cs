@@ -11,6 +11,8 @@ namespace Pre_maritalCounSeling.BAL.ServiceQuiz
         Task<List<QuizResult>> GetQuizResultsAsync();
         Task<QuizResult> GetQuizResultAsync(long id);
         Task<List<QuizResult>> GetQuizResultsSimplyAsync();
+        Task UpdateQuizResultAsync(QuizResult request);
+
     }
     public class QuizResultService : IQuizResultService
     {
@@ -60,7 +62,11 @@ namespace Pre_maritalCounSeling.BAL.ServiceQuiz
             throw new Exception("Unauthorized access / Cannot find the quiz result");
         }
 
-        //TODO: EXPERT can access the customer quiz results via new api endpoint/ method
+        public async Task UpdateQuizResultAsync(QuizResult request)
+        {
+            await _unitOfWork.QuizResultRepository.UpdateAsync(request);
+        }
+
 
     }
 }

@@ -1,3 +1,7 @@
-﻿<div id="chatMessages" class="chat-messages">
+﻿@{
+    ViewData["ChatMessages"] = new List<string> {  };
+}
+
+<div id="chatMessages" class="chat-messages">
     @await Html.PartialAsync("_ChatMessages")
 </div>

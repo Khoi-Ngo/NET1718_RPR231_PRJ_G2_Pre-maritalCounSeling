@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using Pre_maritalCounSeling.Common.Util;
 using Pre_maritalCounSeling.DAL.Entities;
+using System.Text;
 
 namespace Pre_maritalCounSeling.MVC.Controllers
 {
@@ -125,48 +127,130 @@ namespace Pre_maritalCounSeling.MVC.Controllers
             return View("~/Views/ERR_PAGE/403page.cshtml");
         }
 
-        #region TEMP: code following up
-        // GET: QuizResults/Create
-        public async Task<IActionResult> Create()
+
+
+
+        // GET: QuizResults/Edit/5
+        public async Task<IActionResult> Edit(long? id)
         {
-            List<Quiz> result = new List<Quiz>();
+            if (id == null)
+            {
+                return NotFound();
+            }
             try
             {
                 using (var httpClient = new HttpClient())
                 {
                     await AppUtil.AddJwtTokenToRequestHeader(httpClient, HttpContext);
-
                     using (var response = await httpClient
-                        .GetAsync(_configuration["Pre-maritalCounSelingAPIEndpoint:Base"] + "QuizResults"))
+                        .GetAsync(_configuration["Pre-maritalCounSelingAPIEndpoint:Base"] + "QuizResults/" + id))
                     {
-                        //result = await AppUtil.GetDeserializedResponseFromApi<List<QuizResult>>(response);
-                        return null;
+                        var quizResult = await AppUtil.GetDeserializedResponseFromApi<QuizResult>(response);
+                        if (quizResult == null)
+                        {
+                            _logger.LogWarning("QuizResult not found");
+                            return NotFound();
+                        }
+                        if (response.IsSuccessStatusCode)
+                        {
+                            return View(quizResult);
+                        }
+                        return View("~/Views/ERR_PAGE/404page.cshtml");
                     }
                 }
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
+                return NotFound();
             }
-            ViewData["QuizId"] = new SelectList(result, "Id", "Title");
-            return View();
         }
 
-        // POST: QuizResults/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: QuizResults/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Description,Image,Duration,DurationUnit,AvgTimeCompleted,Tags,Difficulty,PassScore,CreatedAt,ModifiedAt,CreatedBy,ModifiedBy,IsActive,IsDeleted")] Quiz quiz)
+        public async Task<IActionResult> Edit(long id, QuizResult quizResult)
         {
-            //if (ModelState.IsValid)
-            //{
-            //    _context.Add(quiz);
-            //    await _context.SaveChangesAsync();
-            //    return RedirectToAction(nameof(Index));
-            //}
-            return View(quiz);
+            if (id != quizResult.Id)
+            {
+                return NotFound();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return View(quizResult);
+            }
+
+            try
+            {
+                using (var httpClient = new HttpClient())
+                {
+                    await AppUtil.AddJwtTokenToRequestHeader(httpClient, HttpContext);
+                    var content = new StringContent(
+                        JsonConvert.SerializeObject(quizResult),
+                        Encoding.UTF8, "application/json");
+
+                    using (var response = await httpClient
+                        .PutAsync(_configuration["Pre-maritalCounSelingAPIEndpoint:Base"] + "QuizResults/" + id, content))
+                    {
+                        if (response.IsSuccessStatusCode)
+                        {
+                            return RedirectToAction(nameof(Index));
+                        }
+                        TempData["ErrorMessage"] = "Failed to update the quiz result. Please try again.";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                TempData["ErrorMessage"] = "An error occurred while updating the quiz result.";
+            }
+            return View(quizResult);
         }
+
+        #region TEMP: code following up
+        // GET: QuizResults/Create
+        //public async Task<IActionResult> Create()
+        //{
+        //    List<Quiz> result = new List<Quiz>();
+        //    try
+        //    {
+        //        using (var httpClient = new HttpClient())
+        //        {
+        //            await AppUtil.AddJwtTokenToRequestHeader(httpClient, HttpContext);
+
+        //            using (var response = await httpClient
+        //                .GetAsync(_configuration["Pre-maritalCounSelingAPIEndpoint:Base"] + "QuizResults"))
+        //            {
+        //                //result = await AppUtil.GetDeserializedResponseFromApi<List<QuizResult>>(response);
+        //                return null;
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.LogError(ex, ex.Message);
+        //    }
+        //    ViewData["QuizId"] = new SelectList(result, "Id", "Title");
+        //    return View();
+        //}
+
+        //// POST: QuizResults/Create
+        //// To protect from overposting attacks, enable the specific properties you want to bind to.
+        //// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Create([Bind("Id,Title,Description,Image,Duration,DurationUnit,AvgTimeCompleted,Tags,Difficulty,PassScore,CreatedAt,ModifiedAt,CreatedBy,ModifiedBy,IsActive,IsDeleted")] Quiz quiz)
+        //{
+        //    //if (ModelState.IsValid)
+        //    //{
+        //    //    _context.Add(quiz);
+        //    //    await _context.SaveChangesAsync();
+        //    //    return RedirectToAction(nameof(Index));
+        //    //}
+        //    return View(quiz);
+        //}
         #endregion
     }
 }

@@ -1,6 +1,6 @@
 ﻿document.addEventListener("DOMContentLoaded", function () {
-    const chatBox = document.getElementById("chatBox");
     const chatToggleBtn = document.getElementById("chatToggleBtn");
+    const chatBox = document.getElementById("chatBox");
     const closeChatBtn = document.getElementById("closeChatBtn");
     const chatInput = document.getElementById("chatInput");
     const sendChatBtn = document.getElementById("sendChatBtn");
@@ -9,53 +9,64 @@
     // Toggle chat box visibility
     chatToggleBtn.addEventListener("click", function () {
         chatBox.style.display = chatBox.style.display === "block" ? "none" : "block";
-        loadMessages(); // Load messages when opened
     });
 
-    // Close chat box
     closeChatBtn.addEventListener("click", function () {
         chatBox.style.display = "none";
     });
 
-    // Send message
-    sendChatBtn.addEventListener("click", function () {
-        sendMessage();
-    });
-
-    // Allow Enter key to send message
-    chatInput.addEventListener("keypress", function (e) {
-        if (e.key === "Enter") {
+    // Send chat message
+    sendChatBtn.addEventListener("click", sendMessage);
+    chatInput.addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
             sendMessage();
         }
     });
 
     function sendMessage() {
-        let message = chatInput.value.trim();
+        const message = chatInput.value.trim();
         if (message === "") return;
+
 
         fetch("/Chat/SendMessage", {
             method: "POST",
             headers: {
-                "Content-Type": "application/x-www-form-urlencoded"
+                "Content-Type": "application/json"
             },
-            body: `message=${encodeURIComponent(message)}`
+            body: JSON.stringify({ message })
         })
-            .then(response => response.text())
-            .then(html => {
-                chatMessages.innerHTML = html;
-                chatInput.value = "";
-                chatMessages.scrollTop = chatMessages.scrollHeight; // Auto-scroll to latest message
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    chatMessages.innerHTML = ""; // Clear existing messages
+                    data.messages.forEach(msg => addMessage(msg)); // Update messages
+                    chatInput.value = "";
+                }
             })
             .catch(error => console.error("Error:", error));
+
+
+        //fetch("/Chat/SendMessage", {
+        //    method: "POST",
+        //    headers: {
+        //        "Content-Type": "application/json"
+        //    },
+        //    body: JSON.stringify({ message })
+        //})
+        //    .then(response => response.json())
+        //    .then(data => {
+        //        if (data.success) {
+        //            addMessage(message);
+        //            chatInput.value = "";
+        //        }
+        //    })
+        //    .catch(error => console.error("Error:", error));
     }
 
-    function loadMessages() {
-        fetch("/Chat/ChatBox")
-            .then(response => response.text())
-            .then(html => {
-                chatMessages.innerHTML = html;
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-            })
-            .catch(error => console.error("Error:", error));
+    function addMessage(message) {
+        const messageDiv = document.createElement("div");
+        messageDiv.classList.add("chat-message");
+        messageDiv.textContent = message;
+        chatMessages.appendChild(messageDiv);
     }
 });

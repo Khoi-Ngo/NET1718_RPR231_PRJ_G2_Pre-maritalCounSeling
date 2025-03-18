@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
 using Pre_maritalCounSeling.BAL.Auth;
 using Pre_maritalCounSeling.BAL.ServiceQuiz;
+using Pre_maritalCounSeling.DAL.Entities;
 
 namespace Pre_maritalCounSeling.API.Controllers
 {
@@ -69,5 +70,26 @@ namespace Pre_maritalCounSeling.API.Controllers
                 return StatusCode(500, "Error when deleting the quiz result.");
             }
         }
+
+        // UPDATE: api/QuizResults
+        [HttpPut]
+        [PermissionAuthorize("Admin")]
+        public async Task<IActionResult> UpdateQuizResultAsync([FromBody] QuizResult request)
+        {
+            try
+            {
+                await _quizResultService.UpdateQuizResultAsync(request);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                return StatusCode(500, "Error when updating the quiz result.");
+            }
+        }
+
+        //TODO: create act as quiz taking
+
+
     }
 }
