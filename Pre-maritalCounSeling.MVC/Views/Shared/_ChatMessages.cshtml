@@ -1,0 +1,12 @@
+﻿
+@if (Model != null && Model.Count > 0)
+{
+    foreach (var message in Model)
+    {
+        <div class="chat-message">@message</div>
+    }
+}
+else
+{
+    <div class="chat-message">No messages yet.</div>
+}

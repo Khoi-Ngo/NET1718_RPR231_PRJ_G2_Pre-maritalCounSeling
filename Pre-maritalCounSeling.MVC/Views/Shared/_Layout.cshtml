@@ -59,5 +59,28 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
+
+
+    <!-- Chat Box Toggle Button -->
+    <button id="chatToggleBtn" class="chat-toggle-btn">
+        💬 Chat
+    </button>
+
+    <!-- Chat Box -->
+    <div id="chatBox" class="chat-box">
+        <div class="chat-header">
+            <span>Chat</span>
+            <button id="closeChatBtn">&times;</button>
+        </div>
+        <div id="chatMessages" class="chat-messages">
+            @await Html.PartialAsync("_ChatMessages")
+        </div>
+        <div class="chat-input">
+            <input type="text" id="chatInput" placeholder="Type a message..." />
+            <button id="sendChatBtn">Send</button>
+        </div>
+    </div>
+
+    <script src="~/js/chat.js"></script>
 </body>
 </html>

@@ -42,7 +42,7 @@ namespace Pre_maritalCounSeling.BAL.Auth
                 new Claim("Email", user.Email),
                 new Claim("RoleName", user.Role.Name),
                 new Claim("IsActive", user.IsActive.ToString()),
-                new Claim("Avatar", user.Avatar),
+                new Claim("Avatar", user.Avatar == null ? String.Empty : user.Avatar),
 
             };
             //get secretkey for jwt token

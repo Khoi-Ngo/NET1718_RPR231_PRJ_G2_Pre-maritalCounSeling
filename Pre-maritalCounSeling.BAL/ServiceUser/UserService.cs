@@ -55,7 +55,7 @@ namespace Pre_maritalCounSeling.BAL.ServiceUser
             {
                 UserName = user.UserName,
                 FullName = user.FullName,
-                Avatar = user.Avatar,
+                Avatar = user.Avatar == null ? String.Empty : user.Avatar,
                 AccessToken = _jwtService.GenerateAccessToken(user),
                 RefreshToken = _jwtService.GenerateRefreshToken(),
             };

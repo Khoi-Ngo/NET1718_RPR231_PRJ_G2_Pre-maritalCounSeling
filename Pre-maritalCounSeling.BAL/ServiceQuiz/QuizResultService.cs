@@ -25,7 +25,7 @@ namespace Pre_maritalCounSeling.BAL.ServiceQuiz
         {
             var userRole = AppUtil.GetUserRoleFromUserContext(_httpContextAccessor);
             var quizResult = (await _unitOfWork.QuizResultRepository.GetByIdAsync(id));
-            if (userRole.Equals("ADMIN") || quizResult.UserId == AppUtil.GetUserIdFromUserContext(_httpContextAccessor))
+            if (userRole.Equals("Admin") || quizResult.UserId == AppUtil.GetUserIdFromUserContext(_httpContextAccessor))
             {
                 await _unitOfWork.QuizResultRepository.RemoveAsync(quizResult);
                 return;
@@ -36,8 +36,8 @@ namespace Pre_maritalCounSeling.BAL.ServiceQuiz
         public async Task<List<QuizResult>> GetQuizResultsAsync()
         {
             var userRole = AppUtil.GetUserRoleFromUserContext(_httpContextAccessor);
-            if (userRole.Equals("ADMIN")) return await _unitOfWork.QuizResultRepository.GetAllAsync();
-            if (userRole.Equals("CUSTOMER")) return (await _unitOfWork.QuizResultRepository.GetAllAsync()).Where(qz => qz.UserId == AppUtil.GetUserIdFromUserContext(_httpContextAccessor)).ToList();
+            if (userRole.Equals("Admin")) return await _unitOfWork.QuizResultRepository.GetAllWithQuizAndUserAsync();
+            if (userRole.Equals("Customer")) return await _unitOfWork.QuizResultRepository.GetAllWithQuizAndUserAsync(AppUtil.GetUserIdFromUserContext(_httpContextAccessor));
             throw new Exception("Unauthorized access / Cannot find the quiz results");
         }
 
@@ -53,10 +53,10 @@ namespace Pre_maritalCounSeling.BAL.ServiceQuiz
         public async Task<QuizResult> GetQuizResultAsync(long id)
         {
             var userRole = AppUtil.GetUserRoleFromUserContext(_httpContextAccessor);
-            var quizResult = await _unitOfWork.QuizResultRepository.GetByIdAsync(id);
+            var quizResult = await _unitOfWork.QuizResultRepository.GetWithQuizAndUserAsync(id);
             if (quizResult == null) throw new Exception("Quiz result not found");
-            if (userRole.Equals("ADMIN")) return quizResult;
-            if (userRole.Equals("CUSTOMER")) return quizResult.UserId == AppUtil.GetUserIdFromUserContext(_httpContextAccessor) ? quizResult : throw new Exception("Unauthorized access / Cannot find the quiz result");
+            if (userRole.Equals("Admin")) return quizResult;
+            if (userRole.Equals("Customer")) return quizResult.UserId == AppUtil.GetUserIdFromUserContext(_httpContextAccessor) ? quizResult : throw new Exception("Unauthorized access / Cannot find the quiz result");
             throw new Exception("Unauthorized access / Cannot find the quiz result");
         }
 

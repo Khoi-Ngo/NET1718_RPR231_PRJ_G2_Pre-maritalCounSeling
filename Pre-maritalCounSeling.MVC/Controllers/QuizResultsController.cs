@@ -29,7 +29,13 @@ namespace Pre_maritalCounSeling.MVC.Controllers
                         .GetAsync(_configuration["Pre-maritalCounSelingAPIEndpoint:Base"] + "QuizResults"))
                     {
                         var quizResults = await AppUtil.GetDeserializedResponseFromApi<List<QuizResult>>(response);
-                        return View(quizResults);
+                        if (response.IsSuccessStatusCode)
+                        {
+                            return View(quizResults);
+                        }
+                        return View("~/Views/ERR_PAGE/404page.cshtml");
+
+
                     }
                 }
 
@@ -68,7 +74,11 @@ namespace Pre_maritalCounSeling.MVC.Controllers
                             _logger.LogWarning("QuizResult not found");
                             return NotFound();
                         }
-                        return View(quizResult);
+                        if (response.IsSuccessStatusCode)
+                        {
+                            return View(quizResult);
+                        }
+                        return View("~/Views/ERR_PAGE/404page.cshtml");
                     }
                 }
 
@@ -98,6 +108,11 @@ namespace Pre_maritalCounSeling.MVC.Controllers
                         {
                             TempData["ErrorMessage"] = "Failed to delete the quiz result. Please try again.";
                         }
+                        if (response.IsSuccessStatusCode)
+                        {
+                            return RedirectToAction(nameof(Index));
+
+                        }
                     }
 
                 }
@@ -107,7 +122,7 @@ namespace Pre_maritalCounSeling.MVC.Controllers
                 _logger.LogError(ex, ex.Message);
                 TempData["ErrorMessage"] = "Failed to delete the quiz result. Please try again.";
             }
-            return RedirectToAction(nameof(Index));
+            return View("~/Views/ERR_PAGE/403page.cshtml");
         }
 
         #region TEMP: code following up

@@ -1,11 +1,17 @@
 ﻿@model Pre_maritalCounSeling.DAL.Entities.QuizResult
 
+
 @{
     ViewData["Title"] = "Details";
 }
 
 <h1>Details</h1>
-
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
 <div>
     <h4>QuizResult</h4>
     <hr />
@@ -88,3 +94,7 @@
     <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
+
+
+<!-- Include Chat Feature -->
+@await Html.PartialAsync("_ChatBox")
