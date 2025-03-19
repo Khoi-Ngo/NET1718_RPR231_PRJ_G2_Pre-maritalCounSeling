@@ -56,12 +56,6 @@ namespace Pre_maritalCounSeling.MVC.Controllers
             }
             return View("~/Views/ERR_PAGE/404page.cshtml");
         }
-        //GET: QuizResults using AJAX JQUERY
-        public async Task<IActionResult> Index02()
-        {
-            return View();
-        }
-
         // GET: QuizResults/Details/5
         public async Task<IActionResult> Details(long? id)
         {
@@ -316,6 +310,34 @@ namespace Pre_maritalCounSeling.MVC.Controllers
             }
             return RedirectToAction(nameof(Index));
         }
+
+        #region USING AJAX FOR THE PROJECT
+
+        //GET: QuizResults using AJAX JQUERY
+        public async Task<IActionResult> Index02()
+        {
+            return View();
+        }
+
+        public async Task<IActionResult> Details02()
+        {
+            return View();
+        }
+        public async Task<IActionResult> Create02()
+        {
+            return View();
+        }
+        public async Task<IActionResult> Edit02()
+        {
+            return View();
+        }
+
+        #endregion
+
     }
 }
+
+/*
+
+ */
 

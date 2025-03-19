@@ -1,0 +1,163 @@
+﻿<h1>Update Quiz Result</h1>
+<hr />
+
+<div id="error-message" class="alert alert-danger" style="display: none;"></div>
+<div id="success-message" class="alert alert-success" style="display: none;">Quiz result updated successfully!</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <form id="quizResultForm">
+            <input type="hidden" id="QuizResultId" />
+
+            <div class="form-group">
+                <label for="Score">Score</label>
+                <input id="Score" class="form-control" type="number" min="0" required />
+            </div>
+
+            <div class="form-group">
+                <label for="QuizId">SELECT THE QUIZ</label>
+                <select id="QuizId" class="form-control"></select>
+            </div>
+
+            <div class="form-group">
+                <label for="QuizResultCode">Quiz Result Code</label>
+                <input id="QuizResultCode" class="form-control" required />
+            </div>
+
+            <div class="form-group">
+                <label for="UserId">SELECT THE USER</label>
+                <select id="UserId" class="form-control"></select>
+            </div>
+
+            <div class="form-group">
+                <label for="TimeCompleted">Time Completed</label>
+                <input id="TimeCompleted" class="form-control" type="number" min="0" required />
+            </div>
+
+            <div class="form-group">
+                <label for="AttemptTime">Attempt Time</label>
+                <input id="AttemptTime" class="form-control" type="number" min="0" required />
+            </div>
+
+            <div class="form-check">
+                <input id="IsActive" type="checkbox" class="form-check-input">
+                <label for="IsActive" class="form-check-label">Is Active</label>
+            </div>
+
+            <div class="form-group">
+                <label for="SuggestionContent">Suggestion Content</label>
+                <input id="SuggestionContent" class="form-control" />
+            </div>
+
+            <div class="form-check">
+                <input id="DoHaveFeedback" type="checkbox" class="form-check-input">
+                <label for="DoHaveFeedback" class="form-check-label">Do Have Feedback</label>
+            </div>
+
+            <div class="form-group">
+                <label for="FeedBack">Feedback</label>
+                <input id="FeedBack" class="form-control" />
+            </div>
+
+            <div class="form-group mt-3">
+                <button type="button" id="updateBtn" class="btn btn-primary">Update</button>
+                <a href="Index02" class="btn btn-secondary">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            function getAuthToken() {
+                var token = document.cookie.split('; ').find(row => row.startsWith('TokenString='));
+                return token ? token.split('=')[1] : null;
+            }
+
+            function getQueryParam(name) {
+                const urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get(name);
+            }
+
+            let quizResultId = getQueryParam("id");
+            if (!quizResultId) {
+                alert("Invalid Quiz Result ID.");
+                window.location.href = "Index02";
+                return;
+            }
+
+            function loadDropdowns() {
+                $.get("https://localhost:7177/api/v1/Quizs", function (data) {
+                    data.forEach(q => $("#QuizId").append(`<option value="${q.id}">${q.title}</option>`));
+                });
+
+                $.get("https://localhost:7177/api/v1/QuizResults/userlistselectbox", function (data) {
+                    data.forEach(u => $("#UserId").append(`<option value="${u.id}">${u.email}</option>`));
+                });
+            }
+
+            function loadQuizResult() {
+                $.ajax({
+                    url: "https://localhost:7177/api/v1/QuizResults/" + quizResultId,
+                    type: "GET",
+                    headers: {
+                        "Authorization": "Bearer " + getAuthToken()
+                    },
+                    success: function (data) {
+                        $("#QuizResultId").val(data.id);
+                        $("#Score").val(data.score);
+                        $("#QuizId").val(data.quizId);
+                        $("#QuizResultCode").val(data.quizResultCode);
+                        $("#UserId").val(data.userId);
+                        $("#TimeCompleted").val(data.timeCompleted);
+                        $("#AttemptTime").val(data.attemptTime);
+                        $("#IsActive").prop("checked", data.isActive);
+                        $("#SuggestionContent").val(data.suggestionContent);
+                        $("#DoHaveFeedback").prop("checked", data.doHaveFeedback);
+                        $("#FeedBack").val(data.feedBack);
+                    },
+                    error: function () {
+                        alert("Error loading quiz result.");
+                        window.location.href = "Index02";
+                    }
+                });
+            }
+
+            loadDropdowns();
+            loadQuizResult();
+
+            $("#updateBtn").click(function () {
+                let updatedQuizResult = {
+                    Id: quizResultId,
+                    Score: $("#Score").val(),
+                    QuizId: $("#QuizId").val(),
+                    QuizResultCode: $("#QuizResultCode").val(),
+                    UserId: $("#UserId").val(),
+                    TimeCompleted: $("#TimeCompleted").val(),
+                    AttemptTime: $("#AttemptTime").val(),
+                    IsActive: $("#IsActive").is(":checked"),
+                    SuggestionContent: $("#SuggestionContent").val(),
+                    DoHaveFeedback: $("#DoHaveFeedback").is(":checked"),
+                    FeedBack: $("#FeedBack").val()
+                };
+
+                $.ajax({
+                    url: "https://localhost:7177/api/v1/QuizResults",
+                    type: "PUT",
+                    contentType: "application/json",
+                    data: JSON.stringify(updatedQuizResult),
+                    headers: {
+                        "Authorization": "Bearer " + getAuthToken()
+                    },
+                    success: function () {
+                        $("#success-message").show();
+                    },
+                    error: function () {
+                        $("#error-message").text("Failed to update the quiz result. Please try again.").show();
+                    }
+                });
+            });
+        });
+    </script>
+}

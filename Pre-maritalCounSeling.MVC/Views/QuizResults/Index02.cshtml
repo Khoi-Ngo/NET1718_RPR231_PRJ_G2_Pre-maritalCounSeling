@@ -1,8 +1,4 @@
-﻿@model IEnumerable<Pre_maritalCounSeling.DAL.Entities.QuizResult>
-
-@* ! This is the page for using AJAX DEMO *@
-
-@{
+﻿@{
     ViewData["Title"] = "Quiz Results";
 }
 
@@ -27,7 +23,8 @@
         }
 
         <p>
-            <a asp-action="Create" class="btn btn-primary">Create New</a>
+            <a href="Create02" class="btn btn-primary">Create new quiz result</a>
+
         </p>
 
         <table class="table table-bordered">
@@ -67,7 +64,7 @@
             // Function to load quiz results from API
             function loadQuizResults() {
                 $.ajax({
-                    url: "/api/v1   /QuizResults",
+                    url: "https://localhost:7177/api/v1/QuizResults",
                     type: "GET",
                     dataType: "json",
                     headers: {
@@ -93,9 +90,11 @@
                                 <td>${item.isActive ? "Yes" : "No"}</td>
                                 <td>${item.isDeleted ? "Yes" : "No"}</td>
                                 <td>
-                                    <a href="/QuizResults/Edit/${item.id}" class="btn btn-warning btn-sm">Edit</a>
-                                    <a href="/QuizResults/Details/${item.id}" class="btn btn-info btn-sm">Details</a>
-                                    <button class="btn btn-danger btn-sm delete-btn" data-id="${item.id}">Delete</button>
+                                   
+                                <a href="Details02?id=${item.id}" class="btn btn-info btn-sm">Details</a>
+                                <a href="Edit02?id=${item.id}" class="btn btn-info btn-sm">Edit</a>
+
+                                <button class="btn btn-danger btn-sm delete-btn" data-id="${item.id}">Delete</button>
                                 </td>
                             </tr>`;
                             tableBody.append(row);
@@ -113,7 +112,7 @@
 
                 if (confirm("Are you sure you want to delete this quiz result?")) {
                     $.ajax({
-                        url: "/api/QuizResults/" + id,
+                        url: "https://localhost:7177/api/v1/QuizResults/" + id,
                         type: "DELETE",
                         headers: {
                             "Authorization": "Bearer " + getAuthToken() // Attach Bearer Token
