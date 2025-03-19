@@ -1,69 +1,117 @@
 ﻿@model Pre_maritalCounSeling.DAL.Entities.QuizResult
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Create Quiz Result";
 }
 
-<h1>Create</h1>
-
-<h4>QuizResult</h4>
+<h1>Create Quiz Result</h1>
 <hr />
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-6">
         <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
             <div class="form-group">
                 <label asp-for="Score" class="control-label"></label>
-                <input asp-for="Score" class="form-control" />
+                <input asp-for="Score" class="form-control" type="number" min="0" required />
                 <span asp-validation-for="Score" class="text-danger"></span>
             </div>
+
             <div class="form-group">
-                <label asp-for="QuizId" class="control-label"></label>
-                <select asp-for="QuizId" class ="form-control" asp-items="ViewBag.QuizId"></select>
+                <label asp-for="QuizId" class="control-label">SELECT THE QUIZ</label>
+                <select asp-for="QuizId" class="form-control" asp-items="ViewBag.QuizOption"></select>
+                <span asp-validation-for="QuizId" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="QuizResultCode" class="control-label"></label>
-                <input asp-for="QuizResultCode" class="form-control" />
+                <input asp-for="QuizResultCode" class="form-control" required />
                 <span asp-validation-for="QuizResultCode" class="text-danger"></span>
             </div>
+
+            <div class="form-group">
+                <label asp-for="UserId" class="control-label">SELECT THE USER</label>
+                <select asp-for="UserId" class="form-control" asp-items="ViewBag.UserId"></select>
+                <span asp-validation-for="UserId" class="text-danger"></span>
+            </div>
+
             <div class="form-group">
                 <label asp-for="TimeCompleted" class="control-label"></label>
                 <input asp-for="TimeCompleted" class="form-control" />
                 <span asp-validation-for="TimeCompleted" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="AttemptTime" class="control-label"></label>
                 <input asp-for="AttemptTime" class="form-control" />
                 <span asp-validation-for="AttemptTime" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="CreatedAt" class="control-label"></label>
-                <input asp-for="CreatedAt" class="form-control" />
-                <span asp-validation-for="CreatedAt" class="text-danger"></span>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
+                </label>
             </div>
             <div class="form-group">
-                <label asp-for="ModifiedAt" class="control-label"></label>
-                <input asp-for="ModifiedAt" class="form-control" />
-                <span asp-validation-for="ModifiedAt" class="text-danger"></span>
+                <label asp-for="SuggestionContent" class="control-label"></label>
+                <input asp-for="SuggestionContent" class="form-control" />
+                <span asp-validation-for="SuggestionContent" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="DoHaveFeedback" /> @Html.DisplayNameFor(model => model.DoHaveFeedback)
+                </label>
             </div>
             <div class="form-group">
-                <label asp-for="CreatedBy" class="control-label"></label>
-                <input asp-for="CreatedBy" class="form-control" />
-                <span asp-validation-for="CreatedBy" class="text-danger"></span>
+                <label asp-for="FeedBack" class="control-label"></label>
+                <input asp-for="FeedBack" class="form-control" />
+                <span asp-validation-for="FeedBack" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ModifiedBy" class="control-label"></label>
-                <input asp-for="ModifiedBy" class="form-control" />
-                <span asp-validation-for="ModifiedBy" class="text-danger"></span>
+                <label asp-for="RecommendedAnswerData" class="control-label"></label>
+                <input asp-for="RecommendedAnswerData" class="form-control" />
+                <span asp-validation-for="RecommendedAnswerData" class="text-danger"></span>
             </div>
+
             <div class="form-group">
+                <label asp-for="UserAnswerData" class="control-label"></label>
+                <input asp-for="UserAnswerData" class="form-control" />
+                <span asp-validation-for="UserAnswerData" class="text-danger"></span>
+            </div>
+            <fieldset disabled>
+                @* Disabled fields auto generated value *@
+                <div class="form-group">
+                    <label asp-for="CreatedAt" class="control-label"></label>
+                    <input asp-for="CreatedAt" class="form-control" type="datetime-local" />
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="ModifiedAt" class="control-label"></label>
+                    <input asp-for="ModifiedAt" class="form-control" type="datetime-local" />
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="CreatedBy" class="control-label"></label>
+                    <input asp-for="CreatedBy" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="ModifiedBy" class="control-label"></label>
+                    <input asp-for="ModifiedBy" class="form-control" />
+                </div>
+            </fieldset>
+
+            <div class="form-group mt-3">
                 <input type="submit" value="Create" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-secondary">Back to List</a>
             </div>
         </form>
     </div>
 </div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-

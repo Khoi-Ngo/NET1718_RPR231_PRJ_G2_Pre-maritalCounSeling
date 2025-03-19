@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Pre_maritalCounSeling.DAL.Entities;
+using Pre_maritalCounSeling.DAL.Repositories;
 using Pre_maritalCounSeling.DAL.Repositories.QuizRepo;
 using Pre_maritalCounSeling.DAL.Repositories.UserRepo;
 
@@ -14,6 +15,9 @@ namespace Pre_maritalCounSeling.DAL.Infrastructure
         #region entities repositories
 
         public UserRepository UserRepository { get; }
+        public UserDetailRepository UserDetailRepository { get; }
+        public UserDetailCateRepository UserDetailCateRepository { get; }
+
         public QuestionOptionRepository QuestionOptionRepository { get; }
         public QuestionRepository QuestionRepository { get; }
         public QuizRepository QuizRepository { get; }
@@ -30,6 +34,9 @@ namespace Pre_maritalCounSeling.DAL.Infrastructure
             QuizRepository ??= new QuizRepository(_context);
             QuizResultRepository ??= new QuizResultRepository(_context);
             RoleRepository ??= new RoleRepository(_context);
+            UserDetailRepository ??= new UserDetailRepository(_context);
+            UserDetailCateRepository ??= new UserDetailCateRepository(_context);
+
         }
 
         public void Dispose()

@@ -10,7 +10,7 @@ namespace Pre_maritalCounSeling.BAL.ServiceUser
 {
     public interface IUserService
     {
-        Task<List<User>> GetAll();
+        Task<List<User>> GetAllaAsync();
         Task<User> GetById(int id);
         Task<int> Create(User User);
         Task<int> Update(User User);
@@ -38,7 +38,7 @@ namespace Pre_maritalCounSeling.BAL.ServiceUser
             return await _unitOfWork.UserRepository.RemoveAsync(User);
         }
 
-        public async Task<List<User>> GetAll()
+        public async Task<List<User>> GetAllaAsync()
         {
             return await _unitOfWork.UserRepository.GetAllAsync();
         }

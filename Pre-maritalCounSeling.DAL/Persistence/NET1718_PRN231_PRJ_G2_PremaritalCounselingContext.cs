@@ -751,7 +751,7 @@ public partial class NET1718_PRN231_PRJ_G2_PremaritalCounselingContext : DbConte
             entity.HasKey(e => e.Id).HasName("user_id_primary");
 
             entity.ToTable("User");
-            //TODO: check mail + phone used for active account or not
+            //TODO: check mail + phone used for active account or not ~ data life cycle
             entity.HasIndex(e => e.UserName, "user_user_name_unique").IsUnique();
             entity.Property(e => e.Id)
                 .ValueGeneratedOnAdd()

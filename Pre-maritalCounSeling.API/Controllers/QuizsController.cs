@@ -25,18 +25,18 @@ namespace Pre_maritalCounSeling.API.Controllers
             _quizService = quizService;
         }
         #endregion
-        // GET: api/Quizs
         [HttpGet]
         public async Task<IActionResult> GetQuizzesAsync()
         {
             try
             {
-                return Ok(await _quizService.GetQuizzesAsync());
+                var quizzes = await _quizService.GetQuizzesAsync();
+                return Ok(quizzes);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                return NotFound();
+                return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while retrieving quizzes.");
             }
         }
 

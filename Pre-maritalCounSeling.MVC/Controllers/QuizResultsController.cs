@@ -4,12 +4,14 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Pre_maritalCounSeling.Common.Util;
 using Pre_maritalCounSeling.DAL.Entities;
+using System.Net.Http;
 using System.Text;
 
 namespace Pre_maritalCounSeling.MVC.Controllers
 {
     public class QuizResultsController : Controller
     {
+        #region INIT
         private readonly ILogger<QuizResultsController> _logger;
         private readonly IConfiguration _configuration;
         public QuizResultsController(ILogger<QuizResultsController> logger, IConfiguration configuration)
@@ -17,6 +19,15 @@ namespace Pre_maritalCounSeling.MVC.Controllers
             _logger = logger;
             _configuration = configuration;
         }
+        //Authentication in front end
+        private bool IsValidRole(string role)
+        {
+            string roleName = Request.Cookies["Role"];
+            return roleName == role;
+        }
+
+        #endregion
+
 
         // GET: QuizResults
         public async Task<IActionResult> Index()
@@ -35,9 +46,6 @@ namespace Pre_maritalCounSeling.MVC.Controllers
                         {
                             return View(quizResults);
                         }
-                        return View("~/Views/ERR_PAGE/404page.cshtml");
-
-
                     }
                 }
 
@@ -45,8 +53,8 @@ namespace Pre_maritalCounSeling.MVC.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                return View(new List<QuizResult>());
             }
+            return View("~/Views/ERR_PAGE/404page.cshtml");
         }
         //GET: QuizResults using AJAX JQUERY
         public async Task<IActionResult> Index02()
@@ -80,7 +88,6 @@ namespace Pre_maritalCounSeling.MVC.Controllers
                         {
                             return View(quizResult);
                         }
-                        return View("~/Views/ERR_PAGE/404page.cshtml");
                     }
                 }
 
@@ -88,8 +95,8 @@ namespace Pre_maritalCounSeling.MVC.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                return NotFound();
             }
+            return View("~/Views/ERR_PAGE/404page.cshtml");
         }
 
         // POST: QuizResults/Delete/id
@@ -131,8 +138,10 @@ namespace Pre_maritalCounSeling.MVC.Controllers
 
 
         // GET: QuizResults/Edit/5
+        [HttpGet]
         public async Task<IActionResult> Edit(long? id)
         {
+            if (!IsValidRole("Admin")) return View("~/Views/ERR_PAGE/403page.cshtml");
             if (id == null)
             {
                 return NotFound();
@@ -142,8 +151,9 @@ namespace Pre_maritalCounSeling.MVC.Controllers
                 using (var httpClient = new HttpClient())
                 {
                     await AppUtil.AddJwtTokenToRequestHeader(httpClient, HttpContext);
-                    using (var response = await httpClient
-                        .GetAsync(_configuration["Pre-maritalCounSelingAPIEndpoint:Base"] + "QuizResults/" + id))
+
+                    // Fetch the quiz result
+                    using (var response = await httpClient.GetAsync(_configuration["Pre-maritalCounSelingAPIEndpoint:Base"] + "QuizResults/" + id))
                     {
                         var quizResult = await AppUtil.GetDeserializedResponseFromApi<QuizResult>(response);
                         if (quizResult == null)
@@ -151,6 +161,30 @@ namespace Pre_maritalCounSeling.MVC.Controllers
                             _logger.LogWarning("QuizResult not found");
                             return NotFound();
                         }
+
+                        // Fetch quizzes
+                        using (var quizResponse = await httpClient.GetAsync(_configuration["Pre-maritalCounSelingAPIEndpoint:Base"] + "Quizs"))
+                        {
+                            var quizzes = await AppUtil.GetDeserializedResponseFromApi<List<Quiz>>(quizResponse);
+                            ViewBag.QuizOption = quizzes?.Select(q => new SelectListItem
+                            {
+                                Value = q.Id.ToString(),
+                                Text = q.Title
+                            }).ToList();
+                        }
+
+
+                        // Fetch users
+                        using (var userResponse = await httpClient.GetAsync(_configuration["Pre-maritalCounSelingAPIEndpoint:Base"] + "QuizResults/userlistselectbox"))
+                        {
+                            var users = await AppUtil.GetDeserializedResponseFromApi<List<User>>(userResponse);
+                            ViewBag.UserId = users?.Select(u => new SelectListItem
+                            {
+                                Value = u.Id.ToString(),
+                                Text = u.Email
+                            }).ToList();
+                        }
+
                         if (response.IsSuccessStatusCode)
                         {
                             return View(quizResult);
@@ -191,7 +225,7 @@ namespace Pre_maritalCounSeling.MVC.Controllers
                         Encoding.UTF8, "application/json");
 
                     using (var response = await httpClient
-                        .PutAsync(_configuration["Pre-maritalCounSelingAPIEndpoint:Base"] + "QuizResults/" + id, content))
+                        .PutAsync(_configuration["Pre-maritalCounSelingAPIEndpoint:Base"] + "QuizResults/", content))
                     {
                         if (response.IsSuccessStatusCode)
                         {
@@ -209,49 +243,79 @@ namespace Pre_maritalCounSeling.MVC.Controllers
             return View(quizResult);
         }
 
-        #region TEMP: code following up
-        // GET: QuizResults/Create
-        //public async Task<IActionResult> Create()
-        //{
-        //    List<Quiz> result = new List<Quiz>();
-        //    try
-        //    {
-        //        using (var httpClient = new HttpClient())
-        //        {
-        //            await AppUtil.AddJwtTokenToRequestHeader(httpClient, HttpContext);
+        // GET: Create page
+        [HttpGet]
+        public async Task<IActionResult> Create()
+        {
+            if (!IsValidRole("Admin")) return View("~/Views/ERR_PAGE/403page.cshtml");
 
-        //            using (var response = await httpClient
-        //                .GetAsync(_configuration["Pre-maritalCounSelingAPIEndpoint:Base"] + "QuizResults"))
-        //            {
-        //                //result = await AppUtil.GetDeserializedResponseFromApi<List<QuizResult>>(response);
-        //                return null;
-        //            }
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _logger.LogError(ex, ex.Message);
-        //    }
-        //    ViewData["QuizId"] = new SelectList(result, "Id", "Title");
-        //    return View();
-        //}
+            try
+            {
+                using (var httpClient = new HttpClient())
+                {
+                    //load the view bag quiz
+                    using (var quizResponse = await httpClient.GetAsync(_configuration["Pre-maritalCounSelingAPIEndpoint:Base"] + "Quizs"))
+                    {
+                        var quizzes = await AppUtil.GetDeserializedResponseFromApi<List<Quiz>>(quizResponse);
+                        ViewBag.QuizOption = quizzes?.Select(q => new SelectListItem
+                        {
+                            Value = q.Id.ToString(),
+                            Text = q.Title
+                        }).ToList();
+                    }
+                    //load the view bag user
+                    using (var userResponse = await httpClient.GetAsync(_configuration["Pre-maritalCounSelingAPIEndpoint:Base"] + "QuizResults/userlistselectbox"))
+                    {
+                        var users = await AppUtil.GetDeserializedResponseFromApi<List<User>>(userResponse);
+                        ViewBag.UserId = users?.Select(u => new SelectListItem
+                        {
+                            Value = u.Id.ToString(),
+                            Text = u.Email
+                        }).ToList();
+                    }
+                }
 
-        //// POST: QuizResults/Create
-        //// To protect from overposting attacks, enable the specific properties you want to bind to.
-        //// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Create([Bind("Id,Title,Description,Image,Duration,DurationUnit,AvgTimeCompleted,Tags,Difficulty,PassScore,CreatedAt,ModifiedAt,CreatedBy,ModifiedBy,IsActive,IsDeleted")] Quiz quiz)
-        //{
-        //    //if (ModelState.IsValid)
-        //    //{
-        //    //    _context.Add(quiz);
-        //    //    await _context.SaveChangesAsync();
-        //    //    return RedirectToAction(nameof(Index));
-        //    //}
-        //    return View(quiz);
-        //}
-        #endregion
+            }
+            catch (Exception ex)
+            {
+                _logger?.LogError(ex, ex.Message);
+            }
+            return View();// auto mapping with the UI - controller mapping folder UI || mapping action ...
+        }
+
+        //POST: Create the quiz result saving into database
+        [HttpPost]
+        public async Task<IActionResult> Create(QuizResult request)
+        {
+            try
+            {
+                string userName = Request.Cookies["UserName"];
+                request.CreatedBy = userName;
+
+                //calling API to save
+                using (var httpClient = new HttpClient())
+                {
+                    await AppUtil.AddJwtTokenToRequestHeader(httpClient, HttpContext);
+                    var content = new StringContent(
+                     JsonConvert.SerializeObject(request),
+                     Encoding.UTF8, "application/json");
+                    using (var response = await httpClient
+                       .PostAsync(_configuration["Pre-maritalCounSelingAPIEndpoint:Base"] + "QuizResults/", content))
+                    {
+                        if (!response.IsSuccessStatusCode)
+                        {
+                            TempData["ErrorMessage"] = "Failed to create the quiz result. Please try again.";
+                            return View();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+            }
+            return RedirectToAction(nameof(Index));
+        }
     }
 }
 

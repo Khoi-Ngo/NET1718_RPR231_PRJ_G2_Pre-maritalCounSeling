@@ -12,7 +12,11 @@ namespace Pre_maritalCounSeling.BAL.ServiceQuiz
         Task<QuizResult> GetQuizResultAsync(long id);
         Task<List<QuizResult>> GetQuizResultsSimplyAsync();
         Task UpdateQuizResultAsync(QuizResult request);
-
+        Task CreateQuizResultSimplyAsync(QuizResult request);
+        Task<List<UserDetail>> GetUserDetailsAsync();
+        Task<UserDetail> GetUserDetailAsync(long id);
+        Task<List<UserDetailCategory>> GetUserDetailCateSimplyAsync();
+        Task CreateUserDetailAsync(UserDetail request);
     }
     public class QuizResultService : IQuizResultService
     {
@@ -66,7 +70,30 @@ namespace Pre_maritalCounSeling.BAL.ServiceQuiz
         {
             await _unitOfWork.QuizResultRepository.UpdateAsync(request);
         }
+        public async Task CreateQuizResultSimplyAsync(QuizResult request)
+        {
+            await _unitOfWork.QuizResultRepository.CreateAsync(request);
+        }
 
+        public async Task<List<UserDetail>> GetUserDetailsAsync()
+        {
+            return await _unitOfWork.UserDetailRepository.GetAll2Async();
+        }
 
+        public async Task<UserDetail> GetUserDetailAsync(long id)
+        {
+            return await _unitOfWork.UserDetailRepository.GetById2Async(id);
+        }
+
+        public async Task<List<UserDetailCategory>> GetUserDetailCateSimplyAsync()
+        {
+            return await _unitOfWork.UserDetailCateRepository.GetAllAsync();
+        }
+
+        public async Task CreateUserDetailAsync(UserDetail request)
+        {
+            await _unitOfWork.UserDetailRepository.CreateAsync(request);
+
+        }
     }
 }
