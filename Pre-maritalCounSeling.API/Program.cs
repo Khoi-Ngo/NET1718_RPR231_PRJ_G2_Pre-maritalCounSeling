@@ -59,6 +59,7 @@ builder.Services.AddCors(options =>
 var modelBuilder = new ODataConventionModelBuilder();
 //modelBuilder.EntityType<QuizResult>();
 modelBuilder.EntitySet<QuizResult>("QuizResult");
+modelBuilder.EntitySet<UserDetail>("UserDetail");
 
 builder.Services.AddControllers().AddOData(
     options => options.Select().Filter().OrderBy().Expand().Count().SetMaxTop(null).AddRouteComponents(
@@ -142,7 +143,7 @@ builder.Services.AddControllers().AddJsonOptions(
     );
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
 
 #endregion
 
