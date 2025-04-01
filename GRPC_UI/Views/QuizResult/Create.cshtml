@@ -1,0 +1,66 @@
+﻿@model GRPC_UI.Models.QuizResultViewModel
+
+<h2>Create Quiz Result</h2>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <p>@TempData["SuccessMessage"]</p>
+}
+
+<!-- Display validation summary -->
+<div asp-validation-summary="All"></div>
+
+<form asp-action="Create" method="post">
+    <div>
+        <label>Score</label>
+        <input asp-for="Score" type="number" />
+        <span asp-validation-for="Score"></span>
+    </div>
+    <div>
+        <label>User ID</label>
+        <input asp-for="UserId" type="number" />
+        <span asp-validation-for="UserId"></span>
+    </div>
+    <div>
+        <label>Quiz ID</label>
+        <input asp-for="QuizId" type="number" />
+        <span asp-validation-for="QuizId"></span>
+    </div>
+    <div>
+        <label>Time Completed</label>
+        <input asp-for="TimeCompleted" type="number" step="0.01" />
+        <span asp-validation-for="TimeCompleted"></span>
+    </div>
+    <div>
+        <label>Attempt Time</label>
+        <input asp-for="AttemptTime" type="number" />
+        <span asp-validation-for="AttemptTime"></span>
+    </div>
+    <div>
+        <label>Suggestion Content</label>
+        <input asp-for="SuggestionContent" />
+        <span asp-validation-for="SuggestionContent"></span>
+    </div>
+    <div>
+        <label>Feedback</label>
+        <input asp-for="Feedback" />
+        <span asp-validation-for="Feedback"></span>
+    </div>
+    <div>
+        <label>Do Have Feedback</label>
+        <input asp-for="DoHaveFeedback" type="checkbox" />
+        <span asp-validation-for="DoHaveFeedback"></span>
+    </div>
+    <div>
+        <label>User Answer Data</label>
+        <input asp-for="UserAnswerData" />
+        <span asp-validation-for="UserAnswerData"></span>
+    </div>
+    <div>
+        <label>Recommended Answer Data</label>
+        <input asp-for="RecommendedAnswerData" />
+        <span asp-validation-for="RecommendedAnswerData"></span>
+    </div>
+    <button type="submit">Create</button>
+    <a href="@Url.Action("Index")">Back to List</a>
+</form>

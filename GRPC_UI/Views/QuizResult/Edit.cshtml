@@ -1,0 +1,52 @@
+﻿@model GRPC_UI.Models.QuizResultViewModel
+
+<h2>Edit Quiz Result</h2>
+
+<form asp-action="Edit" method="post">
+    <input asp-for="Id" type="hidden" />
+    <div>
+        <label>Score</label>
+        <input asp-for="Score" type="number" />
+    </div>
+    <div>
+        <label>User ID</label>
+        <input asp-for="UserId" type="number" />
+    </div>
+    <div>
+        <label>Quiz ID</label>
+        <input asp-for="QuizId" type="number" />
+    </div>
+    <div>
+        <label>Quiz Result Code</label>
+        <input asp-for="QuizResultCode" readonly="readonly" />
+    </div>
+    <div>
+        <label>Time Completed</label>
+        <input asp-for="TimeCompleted" type="number" step="0.01" /> <!-- Allow decimals -->
+    </div>
+    <div>
+        <label>Attempt Time</label>
+        <input asp-for="AttemptTime" type="number" />
+    </div>
+    <div>
+        <label>Suggestion Content</label>
+        <input asp-for="SuggestionContent" />
+    </div>
+    <div>
+        <label>Feedback</label>
+        <input asp-for="Feedback" />
+    </div>
+    <div>
+        <label>Do Have Feedback</label>
+        <input asp-for="DoHaveFeedback" type="checkbox" />
+    </div>
+    <div>
+        <label>User Answer Data</label>
+        <input asp-for="UserAnswerData" />
+    </div>
+    <div>
+        <label>Recommended Answer Data</label>
+        <input asp-for="RecommendedAnswerData" />
+    </div>
+    <button type="submit">Update</button>
+</form>

@@ -1,0 +1,37 @@
+﻿@model List<GRPC_UI.Models.QuizResultViewModel>
+
+<h2>Quiz Results</h2>
+<a href="@Url.Action("Create")">Create New</a>
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Score</th>
+            <th>User ID</th>
+            <th>Quiz ID</th>
+            <th>Time Completed</th>
+            <th>SuggestionContent</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Score</td>
+                <td>@item.UserId</td>
+                <td>@item.QuizId</td>
+                <td>@item.TimeCompleted</td>
+                <td>@item.SuggestionContent</td>
+
+                <td>
+                    <a href="@Url.Action("Details", new { id = item.Id })">Details</a> |
+                    <a href="@Url.Action("Edit", new { id = item.Id })">Edit</a> |
+                    <a href="@Url.Action("Delete", new { id = item.Id })" onclick="return confirm('Are you sure you want to delete this quiz result?');">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

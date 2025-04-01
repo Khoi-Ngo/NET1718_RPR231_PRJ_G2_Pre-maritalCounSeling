@@ -8,6 +8,7 @@ namespace Pre_maritalCounSeling.BAL.ServiceQuiz
     public interface IQuizResultService
     {
         Task DeleteQuizResultAsync(long id);
+        Task DeleteQuizResultSimplyAsync(long id);
         Task<List<QuizResult>> GetQuizResultsAsync();
         Task<QuizResult> GetQuizResultAsync(long id);
         Task<List<QuizResult>> GetQuizResultsSimplyAsync();
@@ -17,6 +18,7 @@ namespace Pre_maritalCounSeling.BAL.ServiceQuiz
         Task<UserDetail> GetUserDetailAsync(long id);
         Task<List<UserDetailCategory>> GetUserDetailCateSimplyAsync();
         Task CreateUserDetailAsync(UserDetail request);
+        Task<QuizResult> GetQuizResultSimplyAsync(long id);
     }
     public class QuizResultService : IQuizResultService
     {
@@ -53,6 +55,10 @@ namespace Pre_maritalCounSeling.BAL.ServiceQuiz
             var check = await _unitOfWork.QuizResultRepository.GetAllAsync();
             return check;
 
+        }
+        public async Task<QuizResult> GetQuizResultSimplyAsync(long id)
+        {
+            return await _unitOfWork.QuizResultRepository.GetByIdAsync(id);
         }
 
 
@@ -94,6 +100,12 @@ namespace Pre_maritalCounSeling.BAL.ServiceQuiz
         {
             await _unitOfWork.UserDetailRepository.CreateAsync(request);
 
+        }
+
+        public async Task DeleteQuizResultSimplyAsync(long id)
+        {
+            var deleteObj = await _unitOfWork.QuizResultRepository.GetByIdAsync(id);
+            await _unitOfWork.QuizResultRepository.RemoveAsync(deleteObj);
         }
     }
 }

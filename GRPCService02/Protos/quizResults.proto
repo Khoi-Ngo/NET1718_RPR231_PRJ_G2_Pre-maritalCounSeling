@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto"; // Import the Empty message
+
+option csharp_namespace = "GRPCService02.Protos";
+
+
+service QuizResultGRPC {
+    rpc GetNotScanned(google.protobuf.Empty) returns (QuizResultModel);
+    rpc Create(google.protobuf.Empty) returns (ActionResult);
+}
+
+// Response messages
+message ActionResult {
+    int32 status = 1;
+    string message = 2;
+    QuizResultModel result = 3;
+}
+
+message QuizResultModel {
+    int32 id = 1;
+    string quiz_result_code = 5;
+}
