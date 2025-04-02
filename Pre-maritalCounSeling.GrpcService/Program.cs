@@ -4,6 +4,7 @@ using Pre_maritalCounSeling.GrpcService.Services;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddHttpContextAccessor();
 builder.Services.ConfigureAppServices();
+builder.Services.AddHttpClient();
 
 
 // Add services to the container.

@@ -11,6 +11,7 @@ service QuizResultGRPC {
 
     rpc Create(QuizResultModel) returns (ActionResult);
     rpc Update(QuizResultModel) returns (ActionResult);
+    rpc SendChatMessage(ChatRequest) returns (ChatResponse);
 }
 
 // Request messages
@@ -43,4 +44,11 @@ message QuizResultModel {
 
 message QuizResultList {
     repeated QuizResultModel data = 1; // Naming convention: lowercase
+}
+message ChatRequest {
+    string message = 1;
+}
+
+message ChatResponse {
+    string response = 1;
 }

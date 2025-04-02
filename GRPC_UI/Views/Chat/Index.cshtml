@@ -1,0 +1,58 @@
+﻿@{
+    ViewData["Title"] = "Chatbot";
+}
+
+<h2>Chatbot</h2>
+
+<div id="chat-container" style="border: 1px solid #ccc; padding: 10px; width: 400px; height: 500px; overflow-y: auto;">
+    <div id="chat-messages"></div>
+</div>
+
+<div style="margin-top: 10px;">
+    <input type="text" id="userMessage" placeholder="Type a message..." style="width: 300px; padding: 5px;" />
+    <button onclick="sendMessage()" style="padding: 5px 10px;">Send</button>
+</div>
+
+@section Scripts {
+    <script>
+        function sendMessage() {
+            var message = document.getElementById("userMessage").value;
+            if (!message.trim()) return;
+
+            var chatContainer = document.getElementById("chat-messages");
+
+            // Append user message
+            var userMessageDiv = document.createElement("div");
+            userMessageDiv.innerHTML = `<strong>You:</strong> ${message}`;
+            userMessageDiv.style.marginBottom = "5px";
+            chatContainer.appendChild(userMessageDiv);
+
+            // Scroll to bottom
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+
+            // Send request to server
+            fetch('/Chat/SendMessage', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: message })
+            })
+            .then(response => response.json())
+            .then(data => {
+                var botMessageDiv = document.createElement("div");
+                botMessageDiv.innerHTML = `<strong>Bot:</strong> ${data.response || data.error}`;
+                botMessageDiv.style.marginBottom = "5px";
+                botMessageDiv.style.color = "blue";
+                chatContainer.appendChild(botMessageDiv);
+
+                // Scroll to bottom
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+
+            // Clear input field
+            document.getElementById("userMessage").value = "";
+        }
+    </script>
+}

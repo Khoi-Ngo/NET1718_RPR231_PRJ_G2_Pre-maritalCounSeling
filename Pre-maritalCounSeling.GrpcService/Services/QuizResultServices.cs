@@ -6,6 +6,7 @@ using System.Text.Json.Serialization;
 using System.Text.Json;
 using Pre_maritalCounSeling.DAL.Entities;
 using System.Web.Http;
+using System.Net.Http;
 
 namespace Pre_maritalCounSeling.GrpcService.Services
 {
@@ -13,10 +14,14 @@ namespace Pre_maritalCounSeling.GrpcService.Services
     {
         private readonly ILogger<QuizResultServices> _logger;
         private readonly IQuizResultService _quizResultService;
-        public QuizResultServices(ILogger<QuizResultServices> logger, IQuizResultService quizResultService)
+        private readonly HttpClient _httpClient; // Add HttpClient for external API calls
+
+        public QuizResultServices(ILogger<QuizResultServices> logger, IQuizResultService quizResultService, HttpClient httpClient)
         {
             _logger = logger;
             _quizResultService = quizResultService;
+            _httpClient = httpClient;
+            _httpClient.BaseAddress = new Uri("http://localhost:8080/"); // Set base URL for ChatBot API
         }
 
         //DELETE
@@ -201,5 +206,50 @@ namespace Pre_maritalCounSeling.GrpcService.Services
                 };
             }
         }
+
+        public override async Task<ChatResponse> SendChatMessage(ChatRequest request, ServerCallContext context)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(request.Message))
+                {
+                    throw new RpcException(new Status(StatusCode.InvalidArgument, "Message cannot be empty"));
+                }
+
+                // Prepare the request payload for the ChatBot API
+                var payload = new { message = request.Message };
+                var jsonPayload = JsonSerializer.Serialize(payload);
+                var content = new StringContent(jsonPayload, System.Text.Encoding.UTF8, "application/json");
+
+                // Call the external ChatBot API
+                var response = await _httpClient.PostAsync("api/ChatBot", content);
+                response.EnsureSuccessStatusCode();
+
+                // Parse the response
+                var responseString = await response.Content.ReadAsStringAsync();
+                var chatBotResponse = JsonSerializer.Deserialize<ChatBotApiResponse>(responseString);
+
+                // Return the gRPC response
+                return new ChatResponse
+                {
+                    Response = chatBotResponse?.response ?? "No response from ChatBot"
+                };
+            }
+            catch (HttpRequestException ex)
+            {
+                _logger.LogError(ex, "Error calling ChatBot API");
+                throw new RpcException(new Status(StatusCode.Unavailable, $"ChatBot API unavailable: {ex.Message}"));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error processing chat message");
+                throw new RpcException(new Status(StatusCode.Internal, $"Error processing chat message: {ex.Message}"));
+            }
+        }
+
+    }
+    public class ChatBotApiResponse
+    {
+        public string response { get; set; }
     }
 }
